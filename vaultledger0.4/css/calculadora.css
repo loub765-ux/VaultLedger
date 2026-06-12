@@ -1,0 +1,55 @@
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #f6f6f4;
+}
+
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 32px;
+    border: 1px solid #ecece8;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    width: 400px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.resultado {
+    margin-top: 20px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 32px;
+    border: 1px solid #ddd;
+}
+
+.resultado p {
+    margin: 5px 0;
+}
+
+.card-hover {
+    transition: 0.3s;
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-item {
+    transition: 0.3s;
+}
+
+.sidebar-item:hover {
+    background: white;
+}
+
+.logo{
+    font-family: "Pixelify Sans", serif;
+    text-align: center;
+    padding: 99px;
+    background: url('../images/vaultledger_logo.png') no-repeat center center/cover;
+    top: 50px;
+}

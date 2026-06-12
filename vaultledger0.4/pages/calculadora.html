@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Regra 50/30/20</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 19px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        width: 300px;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    label {
+        font-weight: bold;
+    }
+    input {
+        width: 92%;
+        padding: 10px;
+        margin: 8px 0 16px;
+        border: 1px solid #ccc;
+        border-radius: 999px;
+        font-size: 12px;
+    }
+    button {
+        width: 100%;
+        padding: 10px;
+        background: linear-gradient(135deg, #facc15, #fde68a);
+        color: white;
+        border: none;
+        border-radius: 999px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #e0b507;
+    }
+    .resultado {
+        margin-top: 20px;
+        padding: 10px;
+        background: #f9f9f9;
+        border-radius: 19px;
+        border: 1px solid #ddd;
+    }
+    .resultado p {
+        margin: 5px 0;
+    }
+
+
+
+   #d
+
+
+    body{
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background:#f6f6f4;
+    }
+
+    .card-hover{
+        transition: .3s;
+    }
+
+    .card-hover:hover{
+        transform: translateY(-4px);
+        box-shadow:0 20px 40px rgba(0,0,0,.08);
+    }
+
+    .sidebar-item{
+        transition:.3s;
+    }
+
+    .sidebar-item:hover{
+        background:white;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Calculadora 50/30/20</h2>
+    <label for="renda">Renda Mensal (R$):</label>
+    <input type="number" id="renda" placeholder="Digite sua renda" min="0" step="0.01">
+    <button onclick="calcular()">Calcular</button>
+
+    <div class="resultado" id="resultado" style="display:none;">
+        <p><strong>Necessidades (50%):</strong> R$ <span id="necessidades"></span></p>
+        <p><strong>Lazer/Desejos (30%):</strong> R$ <span id="lazer"></span></p>
+        <p><strong>Investimentos (20%):</strong> R$ <span id="investimentos"></span></p>
+    </div>
+</div>
+
+<script>
+function calcular() {
+    const renda = parseFloat(document.getElementById("renda").value);
+
+    // Validação de entrada
+    if (isNaN(renda) || renda <= 0) {
+        alert("Por favor, insira um valor de renda válido.");
+        return;
+    }
+
+    // Cálculos da regra 50/30/20
+    const necessidades = renda * 0.50;
+    const lazer = renda * 0.30;
+    const investimentos = renda * 0.20;
+
+    // Exibir resultados formatados
+    document.getElementById("necessidades").textContent = necessidades.toFixed(2).replace('.', ',');
+    document.getElementById("lazer").textContent = lazer.toFixed(2).replace('.', ',');
+    document.getElementById("investimentos").textContent = investimentos.toFixed(2).replace('.', ',');
+
+    document.getElementById("resultado").style.display = "block";
+}
+</script>
+
+</body>
+</html>

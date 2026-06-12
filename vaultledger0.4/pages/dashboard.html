@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VaultLedger Dashboard</title>
+
+<!-- Fonte -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: {
+                background: "#f6f6f4",
+                card: "#ffffff",
+                border: "#ecece8",
+                primary: "#f4c400",
+                "primary-hover": "#e1b900",
+                "text-main": "#111111",
+                "text-muted": "#8a8a8a",
+                success: "#22c55e",
+                danger: "#ef4444"
+            },
+            fontFamily: {
+                sans: ["Plus Jakarta Sans"]
+            }
+        }
+    }
+}
+</script>
+
+<style>
+
+body{
+    background:#f6f6f4;
+}
+
+.sidebar-item{
+    transition:.3s;
+}
+
+.sidebar-item:hover{
+    transform:translateX(4px);
+    background:white;
+}
+
+.card-hover{
+    transition:.3s;
+}
+
+.card-hover:hover{
+    transform:translateY(-4px);
+    box-shadow:0 20px 40px rgba(0,0,0,.08);
+}
+
+</style>
+
+</head>
+
+<body class="font-sans text-text-main">
+
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside class="w-[250px] bg-[#f2f2f0] border-r border-[#e8e8e5] fixed h-screen px-6 py-8">
+
+        <div>
+            <h1 class="text-4xl font-black tracking-tight">
+                VAULTLEDGER
+            </h1>
+
+            <p class="text-xs uppercase tracking-[0.25em] text-gray-500 mt-2">
+                The Gilded Vault
+            </p>
+        </div>
+
+        <button class="flex items-center justify-between px-4 py-4 rounded-2xl bg-[#efe5a7] text-black font-bold">
+
+            <div class="flex items-center gap-3">
+                <i data-lucide="layout-dashboard"></i>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </div>
+        
+            <div class="w-1 h-8 bg-[#e1b900] rounded-full"></div>
+        
+        </button>
+        
+        <!-- TRANSAÇÕES NORMAL -->
+        <button class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600">
+        
+            <i data-lucide="receipt"></i>
+        
+            <li><a href="transactions.html">transação</a></li>
+        
+        </button>
+
+            <button class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600">
+                <i data-lucide="target"></i>
+                Goals
+            </button>
+
+            <button class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600">
+                <i data-lucide="calendar-days"></i>
+                Agenda
+            </button>
+
+            <button class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600">
+                <i data-lucide="layers-3"></i>
+                Categories
+            </button>
+
+            <button class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600">
+                <i data-lucide="settings"></i>
+                Settings
+            </button>
+
+        </nav>
+
+        <button class="absolute bottom-8 left-6 flex items-center gap-3 text-gray-500 hover:text-black transition">
+
+            <i data-lucide="log-out"></i>
+
+            Logout
+
+        </button>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+    <main class="ml-[250px] w-full p-10">
+
+        <!-- HEADER -->
+        <div class="flex items-center justify-between mb-14">
+
+            <div>
+
+                <p class="text-sm text-gray-400 font-medium mb-3">
+                    Pages / Dashboard
+                </p>
+
+                <h1 class="text-5xl font-black tracking-tight">
+                    Olá, João 👋
+                </h1>
+
+                <p class="text-text-muted mt-4 text-lg">
+                    Seu resumo financeiro premium
+                </p>
+
+            </div>
+
+            <button class="bg-primary hover:bg-primary-hover transition px-8 py-5 rounded-3xl font-bold flex items-center gap-3 shadow-xl shadow-yellow-200">
+
+                <i data-lucide="plus"></i>
+
+                Nova Transação
+
+            </button>
+
+        </div>
+
+
+
+        <!-- CARDS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+
+            <!-- Receita -->
+            <div class="bg-white rounded-[28px] border border-border p-7 shadow-sm card-hover">
+
+                <div class="flex items-center justify-between mb-6">
+
+                    <div class="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center text-green-600">
+
+                        <i data-lucide="trending-up"></i>
+
+                    </div>
+
+                    <span class="text-xs font-bold uppercase tracking-wider text-text-muted">
+                        Receita
+                    </span>
+
+                </div>
+
+                <h2 class="text-4xl font-black text-success">
+                    R$ 12.500
+                </h2>
+
+                <p class="text-sm text-text-muted mt-3">
+                    +12% este mês
+                </p>
+
+            </div>
+
+
+
+            <!-- Despesas -->
+            <div class="bg-white rounded-[28px] border border-border p-7 shadow-sm card-hover">
+
+                <div class="flex items-center justify-between mb-6">
+
+                    <div class="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center text-red-500">
+
+                        <i data-lucide="trending-down"></i>
+
+                    </div>
+
+                    <span class="text-xs font-bold uppercase tracking-wider text-text-muted">
+                        Despesas
+                    </span>
+
+                </div>
+
+                <h2 class="text-4xl font-black text-danger">
+                    R$ 4.200
+                </h2>
+
+                <p class="text-sm text-text-muted mt-3">
+                    -3% este mês
+                </p>
+
+            </div>
+
+
+
+            <!-- Saldo -->
+            <div class="bg-white rounded-[28px] border border-border p-7 shadow-sm card-hover">
+
+                <div class="flex items-center justify-between mb-6">
+
+                    <div class="w-14 h-14 rounded-2xl bg-yellow-50 flex items-center justify-center text-yellow-600">
+
+                        <i data-lucide="wallet"></i>
+
+                    </div>
+
+                    <span class="text-xs font-bold uppercase tracking-wider text-text-muted">
+                        Saldo
+                    </span>
+
+                </div>
+
+                <h2 class="text-4xl font-black">
+                    R$ 8.300
+                </h2>
+
+                <p class="text-sm text-text-muted mt-3">
+                    Atualizado hoje
+                </p>
+
+            </div>
+
+
+
+            <!-- Metas -->
+            <div class="bg-white rounded-[28px] border border-border p-7 shadow-sm card-hover">
+
+                <div class="flex items-center justify-between mb-6">
+
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-500">
+
+                        <i data-lucide="target"></i>
+
+                    </div>
+
+                    <span class="text-xs font-bold uppercase tracking-wider text-text-muted">
+                        Metas
+                    </span>
+
+                </div>
+
+                <h2 class="text-4xl font-black">
+                    76%
+                </h2>
+
+                <p class="text-sm text-text-muted mt-3">
+                    Progresso mensal
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
+
+            <!-- CHART -->
+            <div class="bg-white rounded-[32px] border border-border p-8 shadow-sm">
+
+                <div class="flex items-center justify-between mb-8">
+
+                    <div>
+
+                        <h2 class="text-3xl font-black">
+                            Monthly Liquidity Flow
+                        </h2>
+
+                        <p class="text-gray-500 mt-2">
+                            Real-time delta tracking of institutional assets.
+                        </p>
+
+                    </div>
+
+                    <div class="bg-cyan-50 text-cyan-700 px-5 py-3 rounded-2xl text-xs font-black uppercase">
+
+                        Secure Connection
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Fake Chart -->
+                <div class="h-[240px] bg-[#f7f7f5] rounded-[28px] flex items-end gap-5 p-8">
+
+                    <div class="bg-[#d9d2be] w-full rounded-t-2xl h-[40%]"></div>
+
+                    <div class="bg-[#d9d2be] w-full rounded-t-2xl h-[55%]"></div>
+
+                    <div class="bg-[#c3b071] w-full rounded-t-2xl h-[65%]"></div>
+
+                    <div class="bg-[#d9d2be] w-full rounded-t-2xl h-[40%]"></div>
+
+                    <div class="bg-[#b09a57] w-full rounded-t-2xl h-[85%]"></div>
+
+                    <div class="bg-[#c3b071] w-full rounded-t-2xl h-[72%]"></div>
+
+                    <div class="bg-[#d9d2be] w-full rounded-t-2xl h-[55%]"></div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PROFILE -->
+            <div class="bg-[#f4c400] rounded-[32px] p-8 shadow-xl shadow-yellow-200 flex flex-col justify-between">
+
+                <div>
+
+                    <h3 class="text-3xl font-black">
+                        Total Assets
+                    </h3>
+
+                    <p class="mt-2 text-black/70">
+                        Updated 2m ago
+                    </p>
+
+                </div>
+
+                <div class="my-10">
+
+                    <h1 class="text-6xl font-black leading-none tracking-tight">
+                        R$ 248K
+                    </h1>
+
+                    <p class="mt-5 text-lg font-bold text-black/80">
+                        ↗ +4.2% from last month
+                    </p>
+
+                </div>
+
+                <button class="bg-white/30 backdrop-blur-xl hover:bg-white/40 transition rounded-2xl py-5 font-black text-lg">
+
+                    Generate Audit Report
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- EMPTY STATE -->
+        <div class="bg-white rounded-[32px] border border-border mt-12 p-14 text-center shadow-sm">
+
+            <div class="w-20 h-20 bg-[#fef9e7] rounded-[28px] flex items-center justify-center mx-auto mb-6 text-[#c7a600]">
+
+                <i data-lucide="receipt" class="w-10 h-10"></i>
+
+            </div>
+
+            <h3 class="text-3xl font-black mb-4">
+                Nenhuma transação ainda
+            </h3>
+
+            <p class="text-text-muted max-w-md mx-auto leading-relaxed">
+
+                Comece adicionando sua primeira movimentação financeira para acompanhar receitas e despesas.
+
+            </p>
+
+            <button class="mt-8 bg-primary hover:bg-primary-hover transition px-8 py-4 rounded-2xl font-bold shadow-lg shadow-yellow-100">
+
+                + Adicionar Transação
+
+            </button>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+lucide.createIcons();
+</script>
+
+</body>
+</html>

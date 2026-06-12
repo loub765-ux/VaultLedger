@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - VaultLedger</title>
+    <link rel="stylesheet" href="/src/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-background min-h-screen flex font-['Plus_Jakarta_Sans']">
+    <!-- Left SIDE: Desktop Context -->
+    <div class="hidden lg:flex w-1/2 bg-gray-900 relative overflow-hidden items-center justify-center p-12 text-white">
+        <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center"></div>
+        <div class="relative z-10 max-w-lg">
+            <div class="inline-flex items-center gap-2 mb-8 bg-primary/20 backdrop-blur-md px-4 py-2 rounded-full border border-primary/30">
+                <i data-lucide="shield-check" class="w-4 h-4 text-primary"></i>
+                <span class="text-xs font-bold uppercase tracking-widest text-primary">Segurança de Nível Bancário</span>
+            </div>
+            <h2 class="text-5xl font-extrabold leading-tight mb-6">Comece sua jornada rumo à liberdade financeira.</h2>
+            <p class="text-lg opacity-80 leading-relaxed mb-10">Organize suas contas, planeje seu futuro e tome decisões baseadas em dados reais.</p>
+            
+            <ul class="space-y-4">
+                <li class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                    </div>
+                    <span class="text-sm font-medium">Controle total de fluxo de caixa</span>
+                </li>
+                <li class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                    </div>
+                    <span class="text-sm font-medium">Configuração em menos de 1 minuto</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Right SIDE: Register Form -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 relative">
+        <!-- Back Button -->
+        <a href="/index.html" class="absolute top-8 left-8 p-3 bg-white hover:bg-gray-50 border border-border rounded-xl text-text-muted hover:text-primary transition-all flex items-center justify-center shadow-sm group">
+            <i data-lucide="arrow-left" class="w-5 h-5 group-hover:-translate-x-1 transition-transform"></i>
+        </a>
+
+        <div class="w-full max-w-md animate-in fade-in slide-in-from-right duration-500">
+            <div class="mb-10 lg:hidden text-center">
+                <div class="inline-flex items-center gap-2">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-gray-900">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-2xl font-black tracking-tighter text-text-main">VaultLedger</span>
+                </div>
+            </div>
+
+            <h1 class="text-3xl font-extrabold text-text-main mb-2">Abra sua Conta</h1>
+            <p class="text-text-muted mb-8">Gestão financeira pessoal de um jeito novo.</p>
+
+            <form id="registerForm" class="space-y-4">
+                <div id="formError" class="p-3 bg-red-50 border border-red-200 text-red-600 text-xs font-semibold rounded-xl hidden animate-in fade-in duration-300">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                        <span id="formErrorMessage"></span>
+                    </div>
+                </div>
+                <div class="space-y-1.5 transition-colors group">
+                    <label for="name" class="block text-sm font-semibold text-text-muted">Nome Completo</label>
+                    <div class="relative">
+                        <i data-lucide="user" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-primary-hover transition-colors"></i>
+                        <input type="text" id="name" name="name" class="input-field pl-11 py-3" placeholder="Seu nome completo" required>
+                    </div>
+                </div>
+
+                <div class="space-y-1.5 transition-colors group">
+                    <label for="email" class="block text-sm font-semibold text-text-muted">E-mail</label>
+                    <div class="relative">
+                        <i data-lucide="mail" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-primary-hover transition-colors"></i>
+                        <input type="email" id="email" name="email" class="input-field pl-11 py-3" placeholder="exemplo@vaultledger.com" required>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1.5 transition-colors group">
+                        <label for="password" class="block text-sm font-semibold text-text-muted">Senha</label>
+                        <div class="relative">
+                            <i data-lucide="lock" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-primary transition-colors"></i>
+                            <input type="password" id="password" name="password" class="input-field pl-11 py-3" placeholder="••••••••" required minlength="8">
+                        </div>
+                    </div>
+                    <div class="space-y-1.5 transition-colors group">
+                        <label for="confirmPassword" class="block text-sm font-semibold text-text-muted">Confirmar</label>
+                        <div class="relative">
+                            <i data-lucide="shield-check" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-primary transition-colors"></i>
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="input-field pl-11 py-3" placeholder="••••••••" required minlength="8">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="passwordHelp" class="p-3 bg-gray-50 rounded-xl border border-border">
+                    <p class="text-xs font-medium text-text-muted flex items-center gap-2">
+                        <i data-lucide="info" class="w-3 h-3 text-primary"></i>
+                        A senha deve ter pelo menos 8 caracteres.
+                    </p>
+                </div>
+
+                <button type="submit" id="submitBtn" class="mt-2 btn-primary w-full py-4 text-base flex items-center justify-center gap-2 group shadow-xl shadow-primary/20">
+                    <span>Finalizar cadastro</span>
+                    <i data-lucide="user-plus" class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
+                </button>
+            </form>
+
+            <p class="mt-8 text-center text-sm text-text-muted">
+                Já possui uma conta? 
+                <a href="/pages/login.html" class="font-bold text-primary hover:text-primary-hover underline underline-offset-4 transition-colors">Fazer login</a>
+            </p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { registerUser } from '/js/api.js';
+        
+        lucide.createIcons();
+
+        const registerForm = document.getElementById('registerForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = e.target.name.value;
+            const email = e.target.email.value;
+            const password = e.target.password.value;
+            const confirmPassword = e.target.confirmPassword.value;
+            
+            if (password !== confirmPassword) {
+                const errorDiv = document.getElementById('formError');
+                const errorMessage = document.getElementById('formErrorMessage');
+                errorDiv.classList.remove('hidden');
+                errorMessage.textContent = 'As senhas não coincidem!';
+                return;
+            }
+
+            try {
+                submitBtn.disabled = true;
+                const originalContent = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i><span>Criando conta...</span>';
+                lucide.createIcons();
+                
+                await registerUser(name, email, password, confirmPassword);
+                
+                const errorDiv = document.getElementById('formError');
+                const errorMessage = document.getElementById('formErrorMessage');
+                errorDiv.classList.remove('hidden', 'bg-red-50', 'text-red-600', 'border-red-200');
+                errorDiv.classList.add('bg-green-50', 'text-green-600', 'border-green-200');
+                errorMessage.textContent = 'Cadastro realizado com sucesso! Redirecionando...';
+                
+                setTimeout(() => {
+                    window.location.href = '/pages/login.html';
+                }, 1500);
+            } catch (error) {
+                const errorDiv = document.getElementById('formError');
+                const errorMessage = document.getElementById('formErrorMessage');
+                errorDiv.classList.remove('hidden');
+                errorMessage.textContent = error.message;
+
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Finalizar cadastro</span><i data-lucide="user-plus" class="w-4 h-4"></i>';
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>

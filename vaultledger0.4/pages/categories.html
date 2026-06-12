@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorias - VaultLedger</title>
+    <link rel="stylesheet" href="/src/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-background min-h-screen font-['Plus_Jakarta_Sans']">
+    <main class="lg:ml-[240px] pt-24 px-6 lg:px-12 pb-12">
+        <div class="flex items-center justify-between mb-10 animate-in fade-in duration-500">
+            <div>
+                <h1 class="text-3xl font-extrabold text-text-main">Categorias</h1>
+                <p class="text-text-muted">Organize seus gastos e receitas por temas.</p>
+            </div>
+            <button id="openModal" class="btn-primary py-3 px-6 rounded-2xl flex items-center gap-2 shadow-xl shadow-primary/20">
+                <i data-lucide="plus" class="w-5 h-5 text-gray-900"></i>
+                <span class="text-gray-900 font-bold">Nova Categoria</span>
+            </button>
+        </div>
+
+        <div id="categoriesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Categories will be injected here -->
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="categoryModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-6 sm:p-4">
+        <div class="bg-white rounded-[2rem] w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+            <div class="p-8 border-b border-border flex items-center justify-between">
+                <h3 id="modalTitle" class="text-2xl font-extrabold text-text-main">Nova Categoria</h3>
+                <button id="closeModal" class="p-2 text-text-muted hover:bg-gray-100 rounded-xl transition-all">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <form id="categoryForm" class="p-8 space-y-6">
+                <input type="hidden" name="id">
+                <div class="space-y-1.5 focus-within:text-primary-hover transition-colors">
+                    <label class="block text-[11px] font-black text-text-muted uppercase tracking-widest">Nome da Categoria</label>
+                    <input type="text" name="name" class="input-field py-3 text-sm" placeholder="Ex: Supermercado" required>
+                </div>
+                <div class="space-y-1.5 focus-within:text-primary-hover transition-colors">
+                    <label class="block text-[11px] font-black text-text-muted uppercase tracking-widest">Cor de Identificação</label>
+                    <div class="flex items-center gap-4">
+                        <input type="color" name="color" class="w-16 h-16 p-1 rounded-2xl border border-border cursor-pointer shadow-sm transition-all hover:scale-105" value="#EAB308">
+                        <span class="text-xs font-bold text-text-muted">Selecione uma cor para os gráficos</span>
+                    </div>
+                </div>
+                <div class="pt-6 flex gap-4">
+                    <button type="button" id="cancelBtn" class="flex-1 py-4 px-6 rounded-2xl border border-border text-text-muted font-bold hover:bg-gray-50 transition-all">Cancelar</button>
+                    <button type="submit" id="submitBtn" class="flex-1 btn-primary py-4 px-6 rounded-2xl text-gray-900 font-bold shadow-xl shadow-primary/20">Salvar Categoria</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[110] hidden items-center justify-center p-6 sm:p-4">
+        <div class="bg-white rounded-[2rem] w-full max-w-sm shadow-2xl p-8 text-center animate-in zoom-in duration-300">
+            <div class="w-20 h-20 bg-red-50 text-danger rounded-[2rem] flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="alert-triangle" class="w-10 h-10"></i>
+            </div>
+            <h3 class="text-2xl font-extrabold text-text-main mb-3">Excluir?</h3>
+            <p class="text-text-muted mb-8 text-sm leading-relaxed">Deseja realmente excluir esta categoria? Isso não removerá suas transações, mas elas ficarão sem etiqueta.</p>
+            <div class="flex gap-4">
+                <button id="cancelDelete" class="flex-1 py-3 px-4 rounded-xl border border-border text-text-muted font-bold hover:bg-gray-50">Não</button>
+                <button id="confirmDelete" class="flex-1 py-3 px-4 rounded-xl bg-danger text-white font-bold">Sim, excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initLayout, showToast } from '/js/layout.js';
+        import { getCategories, createCategory, updateCategory, deleteCategory, getTransactions, getUserProfile, formatCurrency } from '/js/api.js';
+        
+        initLayout();
+        
+        const list = document.getElementById('categoriesList');
+        const modal = document.getElementById('categoryModal');
+        const form = document.getElementById('categoryForm');
+        const deleteModal = document.getElementById('deleteModal');
+        
+        let editingId = null;
+        let deletingId = null;
+        let userCurrency = 'BRL';
+
+        async function loadCategories() {
+            const profile = await getUserProfile();
+            userCurrency = profile.currency || 'BRL';
+            
+            const categories = await getCategories();
+            const transactions = await getTransactions();
+            
+            if (categories.length === 0) {
+                list.innerHTML = '<div class="col-span-full py-12 text-center text-text-muted italic">Nenhuma categoria encontrada.</div>';
+            } else {
+                list.innerHTML = categories.map(c => {
+                    const categoryTransactions = transactions.filter(t => t.category === c.name);
+                    const total = categoryTransactions.reduce((sum, t) => {
+                        return sum + (t.type === 'income' ? Math.abs(t.amount) : -Math.abs(t.amount));
+                    }, 0);
+                    
+                    return `
+                        <div class="bg-white p-8 rounded-[2rem] border border-border shadow-sm group hover:border-primary/50 transition-all duration-300">
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner" style="background-color: ${c.color}15; color: ${c.color}">
+                                    <i data-lucide="tag" class="w-6 h-6"></i>
+                                </div>
+                                <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                                    <button onclick="window.editCategory(${c.id})" class="p-2 text-text-muted hover:text-primary-hover hover:bg-primary/10 rounded-xl transition-all">
+                                        <i data-lucide="edit-3" class="w-4.5 h-4.5"></i>
+                                    </button>
+                                    <button onclick="window.confirmDelete(${c.id})" class="p-2 text-text-muted hover:text-danger hover:bg-red-50 rounded-xl transition-all">
+                                        <i data-lucide="trash-2" class="w-4.5 h-4.5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-black text-text-main mb-6">${c.name}</h3>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <p class="text-[10px] text-text-muted uppercase font-black tracking-widest mb-1">Total Líquido</p>
+                                    <p class="text-sm font-black ${total >= 0 ? 'text-success' : 'text-danger'}">${formatCurrency(total, userCurrency)}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[10px] text-text-muted uppercase font-black tracking-widest mb-1">Transações</p>
+                                    <p class="text-sm font-black text-text-main">${categoryTransactions.length}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            lucide.createIcons();
+        }
+
+        window.editCategory = async (id) => {
+            const categories = await getCategories();
+            const c = categories.find(item => item.id === id);
+            if (!c) return;
+
+            editingId = id;
+            document.getElementById('modalTitle').textContent = 'Editar Categoria';
+            document.getElementById('submitBtn').textContent = 'Atualizar Categoria';
+            
+            form.name.value = c.name;
+            form.color.value = c.color;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        };
+
+        window.confirmDelete = (id) => {
+            deletingId = id;
+            deleteModal.classList.remove('hidden');
+            deleteModal.classList.add('flex');
+            lucide.createIcons();
+        };
+
+        document.getElementById('openModal').addEventListener('click', () => {
+            editingId = null;
+            form.reset();
+            document.getElementById('modalTitle').textContent = 'Nova Categoria';
+            document.getElementById('submitBtn').textContent = 'Salvar Categoria';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        });
+
+        const close = () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            editingId = null;
+        };
+
+        document.getElementById('closeModal').addEventListener('click', close);
+        document.getElementById('cancelBtn').addEventListener('click', close);
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+
+            try {
+                if (editingId) {
+                    await updateCategory(editingId, data);
+                    showToast('Categoria atualizada!');
+                } else {
+                    await createCategory(data);
+                    showToast('Categoria criada!');
+                }
+                close();
+                loadCategories();
+            } catch (error) {
+                showToast('Erro ao salvar categoria', 'error');
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+
+        document.getElementById('confirmDelete').addEventListener('click', async () => {
+            if (!deletingId) return;
+            try {
+                await deleteCategory(deletingId);
+                showToast('Categoria excluída');
+                deletingId = null;
+                deleteModal.classList.add('hidden');
+                deleteModal.classList.remove('flex');
+                loadCategories();
+            } catch (error) {
+                showToast('Erro ao excluir categoria', 'error');
+            }
+        });
+
+        document.getElementById('cancelDelete')?.addEventListener('click', () => {
+            deleteModal.classList.add('hidden');
+            deleteModal.classList.remove('flex');
+            deletingId = null;
+        });
+
+        loadCategories();
+    </script>
+</body>
+</html>
