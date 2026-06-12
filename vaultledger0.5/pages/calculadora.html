@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Regra 50%/30%/20%</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="../css/calculadora.css">
+</head>
+<body>
+<style>
+    .sidebar-item {
+        transition: .3s;
+    }
+
+    .sidebar-item:hover {
+        background: white;
+    }
+
+    .sidebar-active {
+        box-shadow: 0 10px 25px -5px rgba(225, 185, 0, 0.4);
+    }
+
+    .py-8 {
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+</style>
+<div class="flex min-h-screen">
+    <!-- SIDEBAR -->
+    <aside class="w-[290px] bg-[#f2f2f0] border-r border-[#e8e8e5] fixed h-screen px-6 py-8 flex flex-col justify-between shadow-2xl z-20">
+        <div>
+            <img src="vaultledger_logo.png" alt="VaultLedger Logo" class="h-24 w-auto object-contain mb-6">
+            <nav class="mt-16 flex flex-col gap-3">
+                <a href="dashboard.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:bg-white transition">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="transactions.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:bg-white transition">
+                    <i data-lucide="receipt"></i>
+                    <span>Transações</span>
+                </a>
+
+                <a href="goals.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:bg-white transition">
+                    <i data-lucide="target"></i>
+                    <span>Metas</span>
+                </a>
+
+                <a href="agenda.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:bg-white transition">
+                    <i data-lucide="calendar-days"></i>
+                    <span>Agenda</span>
+                </a>
+
+                <a href="categories.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:bg-white transition">
+                    <i data-lucide="layers-3"></i>
+                    <span>Categorias</span>
+                </a>
+
+                <a href="settings.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:bg-white transition">
+                    <i data-lucide="settings"></i>
+                    <span>Opções</span>
+                </a>
+
+                <a href="calculadora.html" class="sidebar-item flex items-center justify-between px-4 py-4 rounded-2xl bg-[#efe5a7] text-black font-bold sidebar-active">
+                    <div class="flex items-center gap-3">
+                    <i data-lucide="calculator"></i>
+                        <span>Calculadora</span>
+                    </div>
+                    <div class="w-1 h-8 bg-[#e1b900] rounded-full"></div>
+                </a>
+            </nav>
+        </div>
+
+        <button class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:text-black transition">
+            <div class="flex items-center gap-3">
+                <i data-lucide="log-out"></i>
+                <span>Sair</span>
+                </div>
+        </button>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="ml-[290px] w-full flex items-center justify-center p-10">
+        <div class="container">
+            <h2 class="text-3xl font-black mb-8">Calculadora 50/30/20</h2>
+            
+            <div class="mb-6">
+                <label for="renda" class="block mb-2 font-bold">Renda Mensal (R$):</label>
+                <input 
+                    type="number" 
+                    id="renda" 
+                    placeholder="Digite sua renda" 
+                    min="0" 
+                    step="0.01"
+                    class="w-full px-6 py-4 border border-[#ecece8] rounded-2xl focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+                >
+            </div>
+
+            <button onclick="calcular()" class="w-full bg-[#f4c400] hover:bg-[#e7ba00] transition py-4 rounded-2xl font-bold shadow-lg shadow-yellow-100 mb-8">
+                Calcular
+            </button>
+
+            <div class="resultado" id="resultado" style="display:none;">
+                <p class="flex justify-between py-2 border-b border-gray-100"><strong>Necessidades (50%):</strong> <span class="font-bold">R$ <span id="necessidades"></span></span></p>
+                <p class="flex justify-between py-2 border-b border-gray-100"><strong>Lazer/Desejos (30%):</strong> <span class="font-bold">R$ <span id="lazer"></span></span></p>
+                <p class="flex justify-between py-2"><strong>Investimentos (20%):</strong> <span class="font-bold text-green-600">R$ <span id="investimentos"></span></span></p>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+lucide.createIcons();
+
+function calcular() {
+    const renda = parseFloat(document.getElementById("renda").value);
+
+    // Validação de entrada
+    if (isNaN(renda) || renda <= 0) {
+        alert("Por favor, insira um valor de renda válido.");
+        return;
+    }
+
+    // Cálculos da regra 50/30/20
+    const necessidades = renda * 0.50;
+    const lazer = renda * 0.30;
+    const investimentos = renda * 0.20;
+
+    // Exibir resultados formatados
+    document.getElementById("necessidades").textContent = necessidades.toFixed(2).replace('.', ',');
+    document.getElementById("lazer").textContent = lazer.toFixed(2).replace('.', ',');
+    document.getElementById("investimentos").textContent = investimentos.toFixed(2).replace('.', ',');
+
+    document.getElementById("resultado").style.display = "block";
+}
+</script>
+</body>
+</html>

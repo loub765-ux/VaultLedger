@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>VaultLedger</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+    body{
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background:#f6f6f4;
+    }
+
+    .card-hover{
+        transition: .3s;
+    }
+
+    .card-hover:hover{
+        transform: translateY(-4px);
+        box-shadow:0 20px 40px rgba(0,0,0,.08);
+    }
+
+    .sidebar-item{
+        transition:.3s;
+    }
+
+    .sidebar-item:hover{
+        background:white;
+    }
+
+    .sidebar-active {
+        box-shadow: 0 10px 25px -5px rgba(225, 185, 0, 0.4);
+    }
+
+    .py-8{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+</style>
+</head>
+
+<body>
+
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside class="w-[290px] bg-[#f2f2f0] border-r border-[#e8e8e5] fixed h-screen px-6 py-8 flex flex-col justify-between shadow-2xl z-20">
+        <div>
+            <img src="vaultledger_logo.png" alt="VaultLedger Logo" class="h-24 w-auto object-contain mb-6">
+            <nav class="mt-16 flex flex-col gap-3">
+                <a href="dashboard.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:bg-white transition">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="transactions.html" class="sidebar-item flex items-center justify-between px-4 py-4 rounded-2xl bg-[#efe5a7] text-black font-bold sidebar-active">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="receipt"></i>
+                        <span>Transações</span>
+                    </div>
+                    <div class="w-1 h-8 bg-[#e1b900] rounded-full"></div>
+                </a>
+
+                <a href="goals.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:bg-white transition">
+                    <i data-lucide="target"></i>
+                    <span>Metas</span>
+                </a>
+
+                <a href="agenda.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:bg-white transition">
+                    <i data-lucide="calendar-days"></i>
+                    <span>Agenda</span>
+                </a>
+
+                <a href="categories.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:bg-white transition">
+                    <i data-lucide="layers-3"></i>
+                    <span>Categorias</span>
+                </a>
+
+                <a href="settings.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:bg-white transition">
+                    <i data-lucide="settings"></i>
+                    <span>Opções</span>
+                </a>
+
+                <a href="calculadora.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:bg-white transition">
+                    <i data-lucide="calculator"></i>
+                    <span>Calculadora</span>
+                </a>
+            </nav>
+        </div>
+
+        <button id="logoutBtn" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 hover:text-black transition">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="log-out"></i>
+                    <span>Sair</span>
+                </div>
+        </button>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="ml-[290px] w-full px-10 py-8">
+
+        <!-- TOP -->
+        <div class="flex items-center justify-between mb-12">
+
+            <div>
+
+                <p class="text-gray-400 mb-2 font-medium">
+                    Pages / Transactions
+                </p>
+
+                <h1 class="text-5xl font-black tracking-tight">
+                    Ledger History
+                </h1>
+
+                <p class="text-gray-500 mt-4 text-lg">
+                    Review and manage your institutional capital flow.
+                </p>
+
+            </div>
+
+            <button id="openNewTransactionModalBtn" class="bg-[#f4c400] hover:bg-[#e7ba00] transition px-8 py-5 rounded-3xl flex items-center gap-3 font-bold shadow-xl shadow-yellow-200">
+
+                <i data-lucide="plus"></i>
+
+                New Transaction
+
+            </button>
+
+        </div>
+
+
+
+        <!-- FILTERS -->
+        <div class="flex gap-4 flex-wrap mb-8">
+
+            <div class="bg-[#ececeb] rounded-2xl px-5 py-4 flex items-center gap-3 min-w-[260px]">
+
+                <i data-lucide="search" class="text-gray-500"></i>
+
+                <input
+                    type="text"
+                    id="transactionSearch"
+                    placeholder="Search transactions..."
+                    class="bg-transparent outline-none w-full"
+                >
+
+            </div>
+
+            <div class="bg-[#ececeb] rounded-2xl px-5 py-4 flex items-center gap-3">
+                <i data-lucide="calendar" class="text-gray-500"></i>
+                <input type="date" id="dateFilter" class="bg-transparent outline-none font-semibold text-sm">
+            </div>
+
+            <button class="bg-[#ececeb] hover:bg-[#e2e2df] transition rounded-2xl px-6 py-4 flex items-center gap-3 font-semibold">
+                <i data-lucide="filter"></i>
+                All Categories
+            </button>
+
+            <button class="bg-[#ececeb] hover:bg-[#e2e2df] transition rounded-2xl px-6 py-4 flex items-center gap-3 font-semibold">
+                <i data-lucide="wallet"></i>
+                Transaction Type
+            </button>
+
+            <button id="clearFiltersBtn" class="text-[#b39b00] font-bold">
+                Clear Filters
+            </button>
+
+        </div>
+
+
+
+        <!-- TABLE -->
+        <div class="bg-white rounded-[32px] overflow-hidden border border-[#ecece8] shadow-sm">
+
+            <table class="w-full">
+
+                <thead class="bg-[#f7f7f5] text-gray-400 uppercase text-xs tracking-wider border-b border-[#ecece8]">
+
+                    <tr>
+                        <th class="px-8 py-6 text-left">Date</th>
+                        <th class="px-8 py-6 text-left">Type</th>
+                        <th class="px-8 py-6 text-left">Category</th>
+                        <th class="px-8 py-6 text-left">Description</th>
+                        <th class="px-8 py-6 text-right">Amount</th>
+                        <th class="px-8 py-6 text-center">Actions</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="transactionList">
+                    <!-- As transações serão carregadas aqui via transactions.js -->
+                    <tr>
+                        <td colspan="6" class="px-8 py-20 text-center">
+                            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#f4c400]"></div>
+                            <p class="mt-4 text-gray-400 font-bold uppercase text-xs tracking-widest">Carregando Ledger...</p>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+
+
+            <!-- PAGINATION -->
+            <div class="flex items-center justify-between px-8 py-6">
+
+                <p class="text-gray-500">
+                    Showing 1 to 5 of 248 transactions
+                </p>
+
+                <div class="flex items-center gap-3">
+
+                    <button class="w-11 h-11 rounded-2xl border border-[#ecece8] flex items-center justify-center">
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+
+                    <button class="w-11 h-11 rounded-2xl bg-[#f4c400] font-bold">
+                        1
+                    </button>
+
+                    <button class="w-11 h-11 rounded-2xl hover:bg-[#f5f5f3] font-bold">
+                        2
+                    </button>
+
+                    <button class="w-11 h-11 rounded-2xl hover:bg-[#f5f5f3] font-bold">
+                        3
+                    </button>
+
+                    <button class="w-11 h-11 rounded-2xl border border-[#ecece8] flex items-center justify-center">
+                        <i data-lucide="chevron-right"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BOTTOM -->
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 mt-10">
+
+            <!-- CHART -->
+            <div class="bg-white rounded-[32px] p-8 border border-[#ecece8]">
+
+                <div class="flex items-center justify-between mb-8">
+
+                    <div>
+
+                        <h2 class="text-3xl font-black">
+                            Monthly Liquidity Flow
+                        </h2>
+
+                        <p class="text-gray-500 mt-2">
+                            Real-time delta tracking of institutional assets.
+                        </p>
+
+                    </div>
+
+                    <div class="bg-cyan-50 text-cyan-700 px-5 py-3 rounded-2xl text-xs font-black uppercase">
+                        Secure Connection
+                    </div>
+
+                </div>
+
+
+                <!-- Fake chart -->
+                <div class="bg-[#f7f7f5] rounded-[28px] h-[240px] flex items-end gap-5 p-8">
+
+                    <div class="bg-[#d9d2be] h-[40%] w-full rounded-t-2xl"></div>
+
+                    <div class="bg-[#d9d2be] h-[55%] w-full rounded-t-2xl"></div>
+
+                    <div class="bg-[#c9b774] h-[65%] w-full rounded-t-2xl"></div>
+
+                    <div class="bg-[#d9d2be] h-[45%] w-full rounded-t-2xl"></div>
+
+                    <div class="bg-[#b1984f] h-[85%] w-full rounded-t-2xl"></div>
+
+                    <div class="bg-[#c9b774] h-[72%] w-full rounded-t-2xl"></div>
+
+                    <div class="bg-[#d9d2be] h-[55%] w-full rounded-t-2xl"></div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ASSETS -->
+            <div class="bg-[#f4c400] rounded-[32px] p-8 shadow-xl shadow-yellow-200 flex flex-col justify-between">
+
+                <div>
+
+                    <h2 class="text-3xl font-black">
+                        Total Assets
+                    </h2>
+
+                    <p class="mt-2 text-black/70">
+                        Updated 2m ago
+                    </p>
+
+                </div>
+
+                <div class="my-10">
+
+                    <h1 class="text-6xl font-black leading-none tracking-tight">
+                        $2,482,091
+                    </h1>
+
+                    <p class="mt-5 text-lg font-bold text-black/80">
+                        ↗ +4.2% from last month
+                    </p>
+
+                </div>
+
+                <button class="bg-white/30 backdrop-blur-xl rounded-2xl py-5 font-black text-lg hover:bg-white/40 transition">
+
+                    Generate Audit Report
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<!-- MODAL DE NOVA TRANSAÇÃO -->
+<div id="newTransactionModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-6">
+    <div class="bg-white rounded-[32px] w-full max-w-lg shadow-2xl overflow-hidden scale-95 transition-all">
+        <div class="p-8 border-b border-gray-100 flex items-center justify-between">
+            <h2 class="text-3xl font-black tracking-tight">Nova Transação</h2>
+            <button id="closeNewTransactionModal" class="p-2 hover:bg-gray-100 rounded-2xl transition-all">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <form id="addTransactionForm" class="p-8 space-y-6">
+            <div class="space-y-2">
+                <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Descrição</label>
+                <input type="text" name="description" required class="w-full bg-[#f7f7f5] rounded-2xl px-6 py-4 outline-none border-2 border-transparent focus:border-[#f4c400] font-medium" placeholder="Ex: Adobe Creative Cloud">
+            </div>
+            <div class="grid grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Valor (R$)</label>
+                    <input type="number" name="amount" step="0.01" required class="w-full bg-[#f7f7f5] rounded-2xl px-6 py-4 outline-none border-2 border-transparent focus:border-[#f4c400] font-bold text-xl">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Data</label>
+                    <input type="date" name="date" required class="w-full bg-[#f7f7f5] rounded-2xl px-6 py-4 outline-none border-2 border-transparent focus:border-[#f4c400] font-bold">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Fluxo</label>
+                    <select name="type" class="w-full bg-[#f7f7f5] rounded-2xl px-6 py-4 outline-none border-2 border-transparent focus:border-[#f4c400] font-bold appearance-none">
+                        <option value="expense">Despesa (Saída)</option>
+                        <option value="income">Receita (Entrada)</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Categoria</label>
+                    <input type="text" name="category" class="w-full bg-[#f7f7f5] rounded-2xl px-6 py-4 outline-none border-2 border-transparent focus:border-[#f4c400] font-medium" placeholder="Software">
+                </div>
+            </div>
+            <div class="pt-4 flex gap-4">
+                <button type="button" id="cancelNewTransaction" class="flex-1 py-5 rounded-2xl font-bold text-gray-400 hover:bg-gray-50 transition-all">Cancelar</button>
+                <button type="submit" class="flex-1 bg-[#f4c400] hover:bg-[#e1b900] py-5 rounded-2xl font-black text-lg shadow-xl shadow-yellow-100 transition-all">Confirmar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+<script type="module">
+    import { logout } from '../js/api.js';
+    document.getElementById('logoutBtn')?.addEventListener('click', logout);
+</script>
+<script type="module" src="transactions.js"></script>
+
+</body>
+</html>

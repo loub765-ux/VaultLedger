@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+theme {
+  color-primary: #FACC15;
+  color-primary-hover: #EAB308;
+  color-surface: #FFFFFF;
+  color-background: #FFFFFF;
+  color-sidebar: #F4F4F5;
+  color-border: #E4E4E7;
+  color-text-main: #18181B;
+  color-text-muted: #71717A;
+  color-success: #10B981;
+  color-danger: #EF4444;
+  
+  radius-xl: 12px;
+  shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-text-main font-sans antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary hover:bg-primary-hover text-text-main font-semibold py-2 px-5 rounded-lg transition-all duration-200 shadow-sm border-none cursor-pointer;
+  }
+  
+  .card {
+    @apply bg-surface p-5 rounded-xl shadow-sm border border-border;
+  }
+  
+  .input-field {
+    @apply w-full px-3 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all duration-200 text-sm;
+  }
+  
+  .sidebar-link {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:bg-white hover:text-text-main hover:shadow-sm transition-all duration-200 text-sm;
+  }
+  
+  .sidebar-link.active {
+    @apply bg-white text-text-main font-medium shadow-sm;
+  }
+  
+  .stat-label {
+    @apply text-[11px] font-semibold text-text-muted uppercase tracking-wider mb-2;
+  }
+  
+  .stat-value {
+    @apply text-2xl font-bold text-text-main;
+  }
+  
+  .stat-change {
+    @apply text-xs mt-1 font-medium;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideInFromRight {
+    from { transform: translateX(20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes zoomIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .animate-in {
+    animation-fill-mode: both;
+  }
+
+  .fade-in { animation-name: fadeIn; }
+  .slide-in-from-right { animation-name: slideInFromRight; }
+  .zoom-in { animation-name: zoomIn; }
+
+  .duration-200 { animation-duration: 200ms; }
+  .duration-300 { animation-duration: 300ms; }
+  .duration-500 { animation-duration: 500ms; }
+
+  /* Skeleton Loader */
+  .skeleton {
+    @apply bg-gray-100 animate-pulse rounded;
+  }
+}

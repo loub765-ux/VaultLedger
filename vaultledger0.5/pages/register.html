@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - VaultLedger</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f5f5f5, #eaeaea);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo p {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            text-align: left;
+        }
+
+        .card h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+
+        .label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 16px 14px 42px;
+            border: none;
+            border-radius: 999px;
+            background: #f1f1f1;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .input-wrapper input:focus {
+            background: #e7e7e7;
+        }
+
+        .icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+        }
+
+        .button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 14px;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #facc15, #fde68a);
+            font-weight: 700;
+            font-size: 15px;
+            color: #1f2937;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .button:hover {
+            filter: brightness(0.95);
+        }
+
+        .button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .footer a {
+            font-weight: 700;
+            color: #111;
+            text-decoration: none;
+        }
+
+        .badge {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 8px 14px;
+            font-size: 12px;
+            border-radius: 999px;
+            background: #e6f4f1;
+            color: #0f766e;
+        }
+
+        #formError {
+            padding: 12px;
+            background: #fef2f2;
+            color: #b91c1c;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="logo" style="text-decoration: none; color: inherit; display: block;">
+        <h1>VAULTLEDGER</h1>
+        <p>Controle seus gastos</p>
+    </a>
+
+    <div class="card">
+        <h2>Abra sua Conta</h2>
+        <p class="subtitle">Gestão financeira pessoal de um jeito novo.</p>
+
+        <div id="formError"></div>
+
+        <form id="registerForm">
+            <div class="input-group">
+                <label class="label" for="name">NOME COMPLETO</label>
+                <div class="input-wrapper">
+                    <span class="icon"><i data-lucide="user" class="w-4 h-4"></i></span>
+                    <input type="text" id="name" name="name" placeholder="Seu nome completo" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="label" for="email">ENDEREÇO DE EMAIL</label>
+                <div class="input-wrapper">
+                    <span class="icon"><i data-lucide="mail" class="w-4 h-4"></i></span>
+                    <input type="email" id="email" name="email" placeholder="email@exemplo.com" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="label" for="password">SENHA</label>
+                <div class="input-wrapper">
+                    <span class="icon"><i data-lucide="lock" class="w-4 h-4"></i></span>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required minlength="8">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="label" for="confirmPassword">CONFIRMAR SENHA</label>
+                <div class="input-wrapper">
+                    <span class="icon"><i data-lucide="shield-check" class="w-4 h-4"></i></span>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required minlength="8">
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn" class="button">
+                <em>Finalizar cadastro</em>
+                <i data-lucide="user-plus" class="w-4 h-4"></i>
+            </button>
+        </form>
+
+        <div class="divider">ou</div>
+
+        <div class="footer">
+            Já possui uma conta? 
+            <a href="login.html">Fazer login</a>
+        </div>
+    </div>
+
+    <div class="badge">
+       Visual sujeito à alterações
+    </div>
+</div>
+
+<script type="module">
+    import { registerUser, getCurrentUser } from '../js/auth.js';
+    
+    lucide.createIcons();
+
+    if (getCurrentUser()) window.location.href = 'dashboard.html';
+
+    const registerForm = document.getElementById('registerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorDiv = document.getElementById('formError');
+
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const name = registerForm.name.value.trim();
+        const email = registerForm.email.value.trim();
+        const password = registerForm.password.value;
+        const confirmPassword = registerForm.confirmPassword.value;
+
+        errorDiv.style.display = 'none';
+
+        if (password !== confirmPassword) {
+            errorDiv.style.display = 'block';
+            errorDiv.textContent = 'As senhas não coincidem!';
+            return;
+        }
+
+        try {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Criando conta...';
+
+            await registerUser(name, email, password);
+            
+            errorDiv.style.background = '#f0fdf4';
+            errorDiv.style.color = '#15803d';
+            errorDiv.textContent = 'Cadastro realizado! Redirecionando...';
+            errorDiv.style.display = 'block';
+
+            setTimeout(() => window.location.href = 'login.html', 1500);
+        } catch (error) {
+            errorDiv.style.display = 'block';
+            errorDiv.textContent = error.message;
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Finalizar cadastro <i data-lucide="user-plus" class="w-4 h-4"></i>';
+            lucide.createIcons();
+        }
+    });
+</script>
+</body>
+</html>
