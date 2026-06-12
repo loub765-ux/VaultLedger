@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultLedger - Gestão Financeira Inteligente</title>
+    <link rel="stylesheet" href="/src/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-white font-['Plus_Jakarta_Sans'] overflow-x-hidden">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 h-20 flex items-center justify-between px-6 lg:px-24">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-gray-900">
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <span class="text-2xl font-black tracking-tighter text-text-main">VaultLedger</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <a href="/pages/login.html" class="text-sm font-bold text-text-main hover:text-primary-hover transition-colors">Entrar</a>
+            <a href="/pages/register.html" class="btn-primary py-2.5 px-6 rounded-2xl text-sm shadow-lg shadow-primary/20">Abrir Conta</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-40 pb-24 px-6 lg:px-24 relative overflow-hidden">
+        <div class="absolute top-0 right-0 -z-10 w-1/2 h-full opacity-10 pointer-events-none">
+            <svg class="w-full h-full text-primary" viewBox="0 0 100 100" fill="currentColor">
+                <circle cx="80" cy="20" r="40" />
+            </svg>
+        </div>
+        
+        <div class="max-w-4xl animate-in fade-in duration-1000">
+            <div class="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full mb-8">
+                <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                <span class="text-xs font-bold text-primary-hover uppercase tracking-widest">Controle Total e Seguro</span>
+            </div>
+            <h1 class="text-6xl md:text-8xl font-black text-text-main leading-[1.05] mb-8 tracking-tighter">
+                Sua liberdade financeira começa com <span class="text-primary-hover underline underline-offset-8 decoration-primary">clareza</span>.
+            </h1>
+            <p class="text-xl text-text-muted max-w-2xl leading-relaxed mb-12">
+                O VaultLedger é a plataforma de inteligência financeira desenhada para simplificar sua vida. Transforme dados complexos em decisões inteligentes e alcance seus objetivos com uma interface intuitiva e robusta.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="/pages/register.html" class="btn-primary py-5 px-10 rounded-3xl text-lg flex items-center justify-center gap-2 group shadow-2xl shadow-primary/30">
+                    <span>Criar Minha Conta Gratuitamente</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Detailed Content -->
+    <section class="bg-gray-50 py-24 px-6 lg:px-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black tracking-tight mb-4">O que é o VaultLedger?</h2>
+                <p class="text-text-muted max-w-2xl mx-auto">Uma solução completa de <strong>gestão de ativos</strong> e <strong>controle de fluxo de caixa</strong> para quem busca profissionalismo na organização pessoal.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
+                <div class="space-y-6">
+                    <div class="inline-flex items-center justify-center w-12 h-12 bg-white rounded-2xl shadow-sm">
+                        <i data-lucide="zap" class="w-6 h-6 text-primary"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold tracking-tight">Como funciona?</h3>
+                    <p class="text-text-muted leading-relaxed">
+                        Esqueça as planilhas complexas. No VaultLedger, você registra suas <strong>transações</strong> de forma ágil, organiza suas finanças por <strong>categorias inteligentes</strong> e planeja eventos futuros em uma <strong>agenda financeira</strong> dedicada.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-success mt-1"></i>
+                            <span class="text-sm font-medium">Lançamentos em segundos com interface mobile-first.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-success mt-1"></i>
+                            <span class="text-sm font-medium">Categorização automática e personalizada para cada perfil.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-success mt-1"></i>
+                            <span class="text-sm font-medium">Alertas de vencimentos e compromissos na agenda.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="relative">
+                    <div class="aspect-square bg-gradient-to-tr from-primary/10 to-blue-500/10 rounded-[40px] flex items-center justify-center">
+                        <div class="w-4/5 h-4/5 bg-white rounded-3xl shadow-2xl p-6 border border-gray-100 animate-in zoom-in duration-700">
+                             <div class="flex items-center justify-between mb-8">
+                                <div class="w-12 h-2 bg-gray-100 rounded"></div>
+                                <div class="w-8 h-8 bg-primary/20 rounded-full"></div>
+                             </div>
+                             <div class="space-y-4">
+                                <div class="h-4 bg-gray-50 rounded w-full"></div>
+                                <div class="h-4 bg-gray-50 rounded w-5/6"></div>
+                                <div class="h-24 bg-primary/5 rounded-2xl w-full border border-dashed border-primary/20 flex flex-col items-center justify-center gap-2">
+                                    <div class="w-2/3 h-2 bg-primary/20 rounded-full overflow-hidden">
+                                        <div class="w-2/3 h-full bg-primary"></div>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-primary">Metas 75% concluídas</span>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card p-8 bg-white border border-gray-100 hover:border-primary transition-all group">
+                    <i data-lucide="bar-chart-3" class="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="text-xl font-bold mb-3">Relatórios Dinâmicos</h4>
+                    <p class="text-text-muted text-sm leading-relaxed">Gráficos interativos que mostram para onde cada centavo está indo, permitindo cortes estratégicos.</p>
+                </div>
+                <div class="card p-8 bg-white border border-gray-100 hover:border-primary transition-all group">
+                    <i data-lucide="shield-check" class="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="text-xl font-bold mb-3">Segurança Bancária</h4>
+                    <p class="text-text-muted text-sm leading-relaxed">Seus dados são protegidos com os mais altos padrões de criptografia e privacidade do mercado.</p>
+                </div>
+                <div class="card p-8 bg-white border border-gray-100 hover:border-primary transition-all group">
+                    <i data-lucide="smartphone" class="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="text-xl font-bold mb-3">Acesso Omnichannel</h4>
+                    <p class="text-text-muted text-sm leading-relaxed">Acesse suas finanças do desktop, tablet ou smartphone com a mesma agilidade e sincronia total.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-24 px-6 lg:px-24">
+        <div class="bg-text-main rounded-[48px] p-12 lg:p-24 text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-primary opacity-5 pointer-events-none"></div>
+            <h2 class="text-4xl lg:text-5xl font-black text-white mb-8 tracking-tight">Pronto para transformar sua relação com o dinheiro?</h2>
+            <p class="text-gray-400 max-w-xl mx-auto mb-12 text-lg">Junte-se a milhares de usuários que atingiram a paz financeira com o VaultLedger.</p>
+            <a href="/pages/register.html" class="inline-flex items-center gap-3 bg-white text-text-main font-black px-12 py-5 rounded-3xl hover:bg-primary hover:text-gray-900 transition-all shadow-xl">
+                Começar Agora
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-gray-100 px-6 lg:px-24 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+            <div class="w-6 h-6 bg-gray-100 rounded-md flex items-center justify-center">
+                <i data-lucide="shield-check" class="w-4 h-4 text-gray-500"></i>
+            </div>
+            <span class="text-sm font-bold tracking-tighter text-text-main uppercase">VaultLedger</span>
+        </div>
+        <p class="text-xs text-text-muted font-medium">© 2024 VaultLedger. Todos os direitos reservados. Inteligência financeira ao seu alcance.</p>
+        <div class="flex gap-4">
+            <a href="#" class="text-text-muted hover:text-primary transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+            <a href="#" class="text-text-muted hover:text-primary transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { getCurrentUser } from '/js/api.js';
+        const user = getCurrentUser();
+        if (user) {
+            window.location.href = '/pages/dashboard.html';
+        }
+        lucide.createIcons();
+    </script>
+</body>
+</html>

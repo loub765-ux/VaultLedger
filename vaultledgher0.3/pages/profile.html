@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - VaultLedger</title>
+    <link rel="stylesheet" href="/src/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-background min-h-screen font-['Plus_Jakarta_Sans']">
+    <main class="lg:ml-[240px] pt-24 px-6 lg:px-12 pb-12">
+        <div class="mb-10 animate-in fade-in duration-500">
+            <h1 class="text-3xl font-extrabold text-text-main mb-2">Meu Perfil</h1>
+            <p class="text-text-muted">Gerencie suas informações pessoais e segurança.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Avatar & Quick Info -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-8 rounded-[2rem] border border-border text-center shadow-sm">
+                    <div class="relative inline-block mb-6">
+                        <img id="profileAvatar" src="https://picsum.photos/seed/vault/200" alt="Avatar" class="w-32 h-32 rounded-3xl object-cover shadow-lg border-4 border-white" referrerPolicy="no-referrer">
+                        <button id="changeAvatarBtn" class="absolute -bottom-2 -right-2 bg-primary text-gray-900 p-2.5 rounded-2xl shadow-lg hover:scale-110 transition-transform border-4 border-white">
+                            <i data-lucide="camera" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <h2 id="displayName" class="text-xl font-bold text-text-main mb-1">...</h2>
+                    <p id="displayEmail" class="text-sm text-text-muted mb-6">...</p>
+                    <div class="flex flex-col gap-2">
+                        <button id="logoutBtn" class="flex items-center justify-center gap-2 py-3 rounded-2xl text-danger font-bold hover:bg-red-50 transition-colors">
+                            <i data-lucide="log-out" class="w-4 h-4"></i>
+                            Sair da conta
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-[2rem] border border-border shadow-sm">
+                    <h3 class="font-bold text-[10px] uppercase tracking-widest text-text-muted mb-4 px-3">Segurança</h3>
+                    <div class="space-y-1">
+                        <button class="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-2xl transition-colors group">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="lock" class="w-5 h-5 text-text-muted transition-colors group-hover:text-primary-hover"></i>
+                                <span class="text-sm font-bold">Alterar Senha</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-text-muted"></i>
+                        </button>
+                        <button class="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-2xl transition-colors group">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="shield" class="w-5 h-5 text-text-muted transition-colors group-hover:text-primary-hover"></i>
+                                <span class="text-sm font-bold">Autenticação 2FA</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-text-muted"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Form -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-8 rounded-[2rem] border border-border shadow-sm">
+                    <form id="profileForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5 focus-within:text-primary-hover transition-colors">
+                                <label for="name" class="block text-[11px] font-black text-text-muted uppercase tracking-widest">Nome Completo</label>
+                                <input type="text" id="name" name="name" class="input-field py-3 text-sm" placeholder="Seu nome" required>
+                            </div>
+                            <div class="space-y-1.5 opacity-60">
+                                <label for="email" class="block text-[11px] font-black text-text-muted uppercase tracking-widest">E-mail (Privado)</label>
+                                <input type="email" id="email" class="input-field py-3 text-sm bg-gray-50 cursor-not-allowed" disabled>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5 focus-within:text-primary-hover transition-colors">
+                                <label for="phone" class="block text-[11px] font-black text-text-muted uppercase tracking-widest">Telefone</label>
+                                <input type="tel" id="phone" name="phone" class="input-field py-3 text-sm" placeholder="(11) 99999-9999">
+                            </div>
+                            <div class="space-y-1.5 focus-within:text-primary-hover transition-colors">
+                                <label for="currency" class="block text-[11px] font-black text-text-muted uppercase tracking-widest">Moeda Preferencial</label>
+                                <select id="currency" name="currency" class="input-field py-3 text-sm bg-white">
+                                    <option value="BRL">Real Brasileiro (R$)</option>
+                                    <option value="USD">Dólar Americano ($)</option>
+                                    <option value="EUR">Euro (€)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5 opacity-60">
+                                <label for="createdAt" class="block text-[11px] font-black text-text-muted uppercase tracking-widest">Membro desde</label>
+                                <input type="text" id="createdAt" class="input-field py-3 text-sm bg-gray-50" disabled>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5 focus-within:text-primary-hover transition-colors">
+                            <label for="address" class="block text-[11px] font-black text-text-muted uppercase tracking-widest">Bio / Informações Adicionais</label>
+                            <textarea id="address" name="address" rows="3" class="input-field py-3 text-sm" placeholder="Sua descrição curta"></textarea>
+                        </div>
+
+                        <div class="pt-4 border-t border-border flex justify-end">
+                            <button type="submit" id="saveBtn" class="btn-primary py-4 px-10 rounded-2xl flex items-center gap-3 group shadow-xl shadow-primary/20">
+                                <span class="text-gray-900 font-bold">Salvar Alterações</span>
+                                <i data-lucide="save" class="w-5 h-5 text-gray-900 group-hover:scale-110 transition-transform"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-red-50 p-8 rounded-[2rem] border border-red-100 flex flex-col md:flex-row items-center gap-6">
+                    <div class="flex-1 text-center md:text-left">
+                        <h3 class="text-red-900 font-black mb-1 text-lg">Zona Crítica</h3>
+                        <p class="text-red-700 text-xs leading-relaxed">Ao encerrar sua conta, todos os seus dados financeiros serão removidos permanentemente. Esta ação é irreversível.</p>
+                    </div>
+                    <button id="deleteAccountBtn" class="bg-red-600 text-white font-black text-xs px-6 py-3.5 rounded-2xl hover:bg-red-700 transition-all flex items-center gap-2 shadow-lg shadow-red-200">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        Encerrar Conta
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Delete -->
+    <div id="deleteModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[110] hidden items-center justify-center p-6 sm:p-4">
+        <div class="bg-white rounded-[2rem] w-full max-w-sm shadow-2xl p-8 text-center animate-in zoom-in duration-300">
+            <div class="w-20 h-20 bg-red-50 text-danger rounded-[2rem] flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="alert-triangle" class="w-10 h-10"></i>
+            </div>
+            <h3 class="text-2xl font-extrabold text-text-main mb-3">Confirmar?</h3>
+            <p class="text-text-muted mb-8 text-sm">Sua conta e todos os registros financeiros serão apagados.</p>
+            <div class="flex gap-4">
+                <button id="cancelDelete" class="flex-1 py-3 px-4 rounded-xl border border-border text-text-muted font-bold hover:bg-gray-50">Cancelar</button>
+                <button id="confirmDelete" class="flex-1 py-3 px-4 rounded-xl bg-danger text-white font-bold">Sim, apagar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initLayout, showToast } from '/js/layout.js';
+        import { getUserProfile, updateUserProfile, logout } from '/js/api.js';
+        
+        initLayout();
+        lucide.createIcons();
+
+        const form = document.getElementById('profileForm');
+        const saveBtn = document.getElementById('saveBtn');
+        const deleteModal = document.getElementById('deleteModal');
+
+        async function loadProfile() {
+            try {
+                const profile = await getUserProfile();
+                document.getElementById('name').value = profile.name;
+                document.getElementById('email').value = profile.email;
+                document.getElementById('phone').value = profile.phone || '';
+                document.getElementById('currency').value = profile.currency || 'BRL';
+                document.getElementById('address').value = profile.address || '';
+                document.getElementById('createdAt').value = profile.created_at ? new Date(profile.created_at).toLocaleDateString() : 'N/A';
+                document.getElementById('profileAvatar').src = profile.avatar;
+                
+                document.getElementById('displayName').textContent = profile.name;
+                document.getElementById('displayEmail').textContent = profile.email;
+            } catch (error) {
+                console.error(error);
+                window.location.href = '/pages/login.html';
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = {
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                currency: formData.get('currency'),
+                address: formData.get('address')
+            };
+
+            try {
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '<span class="animate-spin inline-block w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full mr-2"></span><span>Salvando...</span>';
+                
+                await updateUserProfile(data);
+                await loadProfile();
+                showToast('Perfil atualizado com sucesso!');
+            } catch (error) {
+                showToast(error.message, 'error');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<span class="text-gray-900 font-bold">Salvar Alterações</span><i data-lucide="save" class="w-5 h-5 text-gray-900"></i>';
+                lucide.createIcons();
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => logout());
+        
+        document.getElementById('changeAvatarBtn').addEventListener('click', async () => {
+            const newSeed = Math.random().toString(36).substring(7);
+            const newAvatar = `https://picsum.photos/seed/${newSeed}/200`;
+            try {
+                await updateUserProfile({ avatar: newAvatar });
+                await loadProfile();
+                showToast('Avatar atualizado!');
+            } catch (error) {
+                showToast('Erro ao atualizar avatar', 'error');
+            }
+        });
+
+        document.getElementById('deleteAccountBtn').addEventListener('click', () => {
+             deleteModal.classList.remove('hidden');
+             deleteModal.classList.add('flex');
+        });
+
+        document.getElementById('cancelDelete').addEventListener('click', () => {
+             deleteModal.classList.add('hidden');
+             deleteModal.classList.remove('flex');
+        });
+
+        document.getElementById('confirmDelete').addEventListener('click', async () => {
+            const { deleteUserAccount } = await import('/js/api.js');
+            await deleteUserAccount();
+            window.location.href = '/pages/register.html';
+        });
+
+        loadProfile();
+    </script>
+</body>
+</html>

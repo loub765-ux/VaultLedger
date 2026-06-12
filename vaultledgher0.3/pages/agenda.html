@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda - VaultLedger</title>
+    <link rel="stylesheet" href="/src/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-background min-h-screen font-['Plus_Jakarta_Sans']">
+    <main class="lg:ml-[240px] pt-24 px-6 lg:px-12 pb-12">
+        <div class="flex items-center justify-between mb-10 animate-in fade-in duration-500">
+            <div>
+                <h1 class="text-3xl font-extrabold text-text-main">Agenda Financeira</h1>
+                <p class="text-text-muted">Acompanhe seus compromissos e vencimentos.</p>
+            </div>
+            <button id="openModal" class="btn-primary py-3 px-6 rounded-2xl flex items-center gap-2 shadow-xl shadow-primary/20">
+                <i data-lucide="plus" class="w-5 h-5 text-gray-900"></i>
+                <span class="text-gray-900 font-bold">Adicionar Evento</span>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Calendar Section -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-8 rounded-[2rem] border border-border shadow-sm">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 id="currentMonthYear" class="text-xl font-black text-text-main">...</h3>
+                        <div class="flex gap-2">
+                            <button id="prevMonth" class="p-2.5 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-border">
+                                <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                            </button>
+                            <button id="nextMonth" class="p-2.5 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-border">
+                                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-px bg-gray-100 rounded-[1.5rem] overflow-hidden border border-border shadow-inner">
+                        <div class="bg-gray-50/50 py-4 text-center text-[10px] font-black text-text-muted uppercase tracking-widest">Dom</div>
+                        <div class="bg-gray-50/50 py-4 text-center text-[10px] font-black text-text-muted uppercase tracking-widest">Seg</div>
+                        <div class="bg-gray-50/50 py-4 text-center text-[10px] font-black text-text-muted uppercase tracking-widest">Ter</div>
+                        <div class="bg-gray-50/50 py-4 text-center text-[10px] font-black text-text-muted uppercase tracking-widest">Qua</div>
+                        <div class="bg-gray-50/50 py-4 text-center text-[10px] font-black text-text-muted uppercase tracking-widest">Qui</div>
+                        <div class="bg-gray-50/50 py-4 text-center text-[10px] font-black text-text-muted uppercase tracking-widest">Sex</div>
+                        <div class="bg-gray-50/50 py-4 text-center text-[10px] font-black text-text-muted uppercase tracking-widest">Sáb</div>
+                        
+                        <div id="calendarGrid" class="contents"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events List Section -->
+            <div class="space-y-6">
+                <div class="bg-white p-8 rounded-[2rem] border border-border shadow-sm">
+                    <h3 class="text-sm font-black text-text-muted uppercase tracking-widest mb-6">Próximos Eventos</h3>
+                    <div id="eventsList" class="space-y-4">
+                        <!-- Events will be injected here -->
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-[2rem] border border-border shadow-sm">
+                    <h3 class="text-sm font-black text-text-muted uppercase tracking-widest mb-6">Legenda</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                            <span class="text-xs font-bold text-text-muted uppercase tracking-widest">Pagamentos</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="text-xs font-bold text-text-muted uppercase tracking-widest">Recebimentos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="eventModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-6 sm:p-4">
+        <div class="bg-white rounded-[2rem] w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+            <div class="p-8 border-b border-border flex items-center justify-between">
+                <h3 id="modalTitle" class="text-2xl font-extrabold text-text-main">Novo Evento</h3>
+                <button id="closeModal" class="p-2 text-text-muted hover:bg-gray-100 rounded-xl transition-all">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <form id="eventForm" class="p-8 space-y-6">
+                <input type="hidden" name="id">
+                <div class="space-y-1.5">
+                    <label class="block text-[11px] font-black text-text-muted uppercase tracking-widest">Título do Evento</label>
+                    <input type="text" name="title" class="input-field py-3 text-sm" placeholder="Ex: Pagamento Aluguel" required>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="space-y-1.5">
+                        <label class="block text-[11px] font-black text-text-muted uppercase tracking-widest">Data</label>
+                        <input type="date" name="date" class="input-field py-3 text-sm" required>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label id="valueLabel" class="block text-[11px] font-black text-text-muted uppercase tracking-widest">Valor (R$)</label>
+                        <input type="number" name="amount" step="0.01" class="input-field py-3 text-sm" placeholder="0,00">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="space-y-1.5">
+                        <label class="block text-[11px] font-black text-text-muted uppercase tracking-widest">Tipo</label>
+                        <select name="type" class="input-field py-3 text-sm bg-white" required>
+                            <option value="bill">Pagamento</option>
+                            <option value="income">Recebimento</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="block text-[11px] font-black text-text-muted uppercase tracking-widest">Cor</label>
+                        <select name="color" class="input-field py-3 text-sm bg-white" required>
+                            <option value="blue">Azul</option>
+                            <option value="green">Verde</option>
+                            <option value="yellow">Amarelo</option>
+                            <option value="purple">Roxo</option>
+                            <option value="red">Vermelho</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pt-6 flex gap-4">
+                    <button type="button" id="cancelBtn" class="flex-1 py-4 px-6 rounded-2xl border border-border text-text-muted font-bold hover:bg-gray-50 transition-all">Cancelar</button>
+                    <button type="submit" id="submitBtn" class="flex-1 btn-primary py-4 px-6 rounded-2xl text-gray-900 font-bold shadow-xl shadow-primary/20">Salvar Evento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[110] hidden items-center justify-center p-6 sm:p-4">
+        <div class="bg-white rounded-[2rem] w-full max-w-sm shadow-2xl p-8 text-center animate-in zoom-in duration-300">
+            <div class="w-20 h-20 bg-red-50 text-danger rounded-[2rem] flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="alert-triangle" class="w-10 h-10"></i>
+            </div>
+            <h3 class="text-2xl font-extrabold text-text-main mb-3">Excluir?</h3>
+            <p class="text-text-muted mb-8 text-sm leading-relaxed">Tem certeza que deseja remover este evento da sua agenda?</p>
+            <div class="flex gap-4">
+                <button id="cancelDelete" class="flex-1 py-3 px-4 rounded-xl border border-border text-text-muted font-bold hover:bg-gray-50">Não</button>
+                <button id="confirmDelete" class="flex-1 py-3 px-4 rounded-xl bg-danger text-white font-bold">Sim, excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initLayout, showToast } from '/js/layout.js';
+        import { getEvents, createEvent, updateEvent, deleteEvent, getUserProfile, formatCurrency } from '/js/api.js';
+        
+        initLayout();
+        
+        const calendarGrid = document.getElementById('calendarGrid');
+        const eventsList = document.getElementById('eventsList');
+        const modal = document.getElementById('eventModal');
+        const form = document.getElementById('eventForm');
+        const deleteModal = document.getElementById('deleteModal');
+        const monthYearDisplay = document.getElementById('currentMonthYear');
+        const valueLabel = document.getElementById('valueLabel');
+        
+        let currentDate = new Date();
+        let editingId = null;
+        let deletingId = null;
+        let userCurrency = 'BRL';
+
+        async function renderCalendar() {
+            const profile = await getUserProfile();
+            userCurrency = profile.currency || 'BRL';
+            
+            const currencySymbols = { 'BRL': 'R$', 'USD': '$', 'EUR': '€' };
+            valueLabel.textContent = `Valor (${currencySymbols[userCurrency] || 'R$'})`;
+
+            const events = await getEvents();
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            monthYearDisplay.textContent = currentDate.toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            calendarGrid.innerHTML = '';
+            
+            for (let i = 0; i < firstDay; i++) {
+                calendarGrid.innerHTML += '<div class="bg-gray-50/20 h-24 lg:h-32 border-b border-r border-border opacity-50"></div>';
+            }
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayEvents = events.filter(e => e.date === dateStr);
+                const isToday = new Date().toDateString() === new Date(year, month, day).toDateString();
+                
+                calendarGrid.innerHTML += `
+                    <div class="bg-white h-24 lg:h-32 border-b border-r border-border p-2 hover:bg-gray-50 transition-all group relative">
+                        <span class="text-xs font-black ${isToday ? 'bg-primary text-gray-900 w-6 h-6 flex items-center justify-center rounded-lg shadow-sm' : 'text-text-muted'}">${day}</span>
+                        <div class="mt-1 space-y-1 overflow-hidden">
+                            ${dayEvents.map(e => `
+                                <div onclick="window.editEvent(${e.id})" class="text-[9px] lg:text-[10px] px-1.5 py-1 rounded-lg border border-current truncate cursor-pointer font-black uppercase hover:brightness-90 transition-all" style="background-color: ${getColorHex(e.color)}15; color: ${getColorHex(e.color)}">
+                                    ${e.title}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button onclick="window.quickAddEvent('${dateStr}')" class="absolute bottom-2 right-2 p-1 bg-gray-50 text-text-muted rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary-hover hover:text-white">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+            }
+            
+            renderEventsList(events);
+            lucide.createIcons();
+        }
+
+        function getColorHex(color) {
+            const colors = { blue: '#3B82F6', green: '#10B981', yellow: '#EAB308', purple: '#A855F7', red: '#EF4444' };
+            return colors[color] || '#71717A';
+        }
+
+        async function renderEventsList(events) {
+            const upcoming = events
+                .filter(e => new Date(e.date) >= new Date().setHours(0,0,0,0))
+                .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            if (upcoming.length === 0) {
+                eventsList.innerHTML = '<p class="text-sm text-text-muted italic px-3">Sem eventos próximos</p>';
+            } else {
+                eventsList.innerHTML = upcoming.slice(0, 5).map(e => `
+                    <div class="flex items-center justify-between p-4 rounded-2xl border border-border hover:border-primary/50 transition-all group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-1.5 h-10 rounded-full" style="background-color: ${getColorHex(e.color)}"></div>
+                            <div>
+                                <h4 class="text-sm font-black text-text-main uppercase tracking-tight">${e.title}</h4>
+                                <div class="flex items-center gap-2">
+                                    <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest">${new Date(e.date).toLocaleDateString('pt-BR')}</p>
+                                    ${e.amount ? `<span class="text-[10px] font-black text-text-muted">•</span><p class="text-[10px] font-black text-primary">${formatCurrency(e.amount, userCurrency)}</p>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                            <button onclick="window.editEvent(${e.id})" class="p-2 text-text-muted hover:text-primary-hover hover:bg-primary/10 rounded-xl transition-all">
+                                <i data-lucide="edit-3" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="window.confirmDelete(${e.id})" class="p-2 text-text-muted hover:text-danger hover:bg-red-50 rounded-xl transition-all">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            lucide.createIcons();
+        }
+
+        window.quickAddEvent = (date) => {
+            editingId = null;
+            form.reset();
+            form.date.value = date;
+            document.getElementById('modalTitle').textContent = 'Adicionar Evento';
+            document.getElementById('submitBtn').textContent = 'Salvar Evento';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        };
+
+        window.editEvent = async (id) => {
+            const events = await getEvents();
+            const e = events.find(item => item.id === id);
+            if (!e) return;
+
+            editingId = id;
+            document.getElementById('modalTitle').textContent = 'Editar Evento';
+            document.getElementById('submitBtn').textContent = 'Atualizar Evento';
+            
+            form.title.value = e.title;
+            form.date.value = e.date;
+            form.type.value = e.type;
+            form.color.value = e.color;
+            form.amount.value = e.amount || '';
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        };
+
+        window.confirmDelete = (id) => {
+            deletingId = id;
+            deleteModal.classList.remove('hidden');
+            deleteModal.classList.add('flex');
+            lucide.createIcons();
+        };
+
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
+
+        document.getElementById('openModal').addEventListener('click', () => {
+            editingId = null;
+            form.reset();
+            document.getElementById('modalTitle').textContent = 'Novo Evento';
+            document.getElementById('submitBtn').textContent = 'Salvar Evento';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        });
+
+        const close = () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            editingId = null;
+        };
+
+        document.getElementById('closeModal').addEventListener('click', close);
+        document.getElementById('cancelBtn').addEventListener('click', close);
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            if (data.amount) data.amount = parseFloat(data.amount);
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+
+            try {
+                if (editingId) {
+                    await updateEvent(editingId, data);
+                    showToast('Evento atualizado!');
+                } else {
+                    await createEvent(data);
+                    showToast('Evento adicionado!');
+                }
+                close();
+                renderCalendar();
+            } catch (error) {
+                showToast('Erro ao salvar evento', 'error');
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+
+        document.getElementById('confirmDelete').addEventListener('click', async () => {
+            if (!deletingId) return;
+            try {
+                await deleteEvent(deletingId);
+                showToast('Evento excluído');
+                deletingId = null;
+                deleteModal.classList.add('hidden');
+                deleteModal.classList.remove('flex');
+                renderCalendar();
+            } catch (error) {
+                showToast('Erro ao excluir evento', 'error');
+            }
+        });
+
+        document.getElementById('cancelDelete')?.addEventListener('click', () => {
+            deleteModal.classList.add('hidden');
+            deleteModal.classList.remove('flex');
+            deletingId = null;
+        });
+
+        renderCalendar();
+    </script>
+</body>
+</html>

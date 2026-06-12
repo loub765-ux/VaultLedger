@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>VaultLedger</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+    body{
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background:#f6f6f4;
+    }
+
+    .card-hover{
+        transition: .3s;
+    }
+
+    .card-hover:hover{
+        transform: translateY(-4px);
+        box-shadow:0 20px 40px rgba(0,0,0,.08);
+    }
+
+    .sidebar-item{
+        transition:.3s;
+    }
+
+    .sidebar-item:hover{
+        background:white;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside class="w-[250px] bg-[#f2f2f0] border-r border-[#e8e8e5] fixed h-screen px-6 py-8">
+
+        <div>
+            <h1 class="text-4xl font-black tracking-tight">
+                VAULTLEDGER
+            </h1>
+
+            <p class="text-xs uppercase tracking-[0.25em] text-gray-500 mt-2">
+                The Gilded Vault
+            </p>
+        </div>
+
+        <nav class="mt-16 flex flex-col gap-3">
+
+            <button class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600">
+                <i data-lucide="layout-dashboard"></i>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </button>
+
+            <button class="flex items-center justify-between px-4 py-4 rounded-2xl bg-[#efe5a7] text-black font-bold">
+
+                <div class="flex items-center gap-3">
+                    <i data-lucide="receipt"></i>
+                    <li><a href="transactions.html">Transação</a></li>
+                </div>
+
+                <div class="w-1 h-8 bg-[#e1b900] rounded-full"></div>
+            </button>
+
+            <button class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600">
+                <i data-lucide="target"></i>
+                Goals
+            </button>
+
+            <button class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600">
+                <i data-lucide="calendar-days"></i>
+                Agenda
+            </button>
+
+            <button class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600">
+                <i data-lucide="layers-3"></i>
+                Categories
+            </button>
+
+            <button class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600">
+                <i data-lucide="settings"></i>
+                Settings
+            </button>
+
+        </nav>
+
+        <button class="absolute bottom-8 left-6 flex items-center gap-3 text-gray-500 hover:text-black transition">
+            <i data-lucide="log-out"></i>
+            Logout
+        </button>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+    <main class="ml-[250px] w-full px-10 py-8">
+
+        <!-- TOP -->
+        <div class="flex items-center justify-between mb-12">
+
+            <div>
+
+                <p class="text-gray-400 mb-2 font-medium">
+                    Pages / Transactions
+                </p>
+
+                <h1 class="text-5xl font-black tracking-tight">
+                    Ledger History
+                </h1>
+
+                <p class="text-gray-500 mt-4 text-lg">
+                    Review and manage your institutional capital flow.
+                </p>
+
+            </div>
+
+            <button class="bg-[#f4c400] hover:bg-[#e7ba00] transition px-8 py-5 rounded-3xl flex items-center gap-3 font-bold shadow-xl shadow-yellow-200">
+
+                <i data-lucide="plus"></i>
+
+                New Transaction
+
+            </button>
+
+        </div>
+
+
+
+        <!-- FILTERS -->
+        <div class="flex gap-4 flex-wrap mb-8">
+
+            <div class="bg-[#ececeb] rounded-2xl px-5 py-4 flex items-center gap-3 min-w-[260px]">
+
+                <i data-lucide="search" class="text-gray-500"></i>
+
+                <input
+                    type="text"
+                    placeholder="Search transactions..."
+                    class="bg-transparent outline-none w-full"
+                >
+
+            </div>
+
+            <button class="bg-[#ececeb] hover:bg-[#e2e2df] transition rounded-2xl px-6 py-4 flex items-center gap-3 font-semibold">
+                <i data-lucide="calendar"></i>
+                Last 30 Days
+            </button>
+
+            <button class="bg-[#ececeb] hover:bg-[#e2e2df] transition rounded-2xl px-6 py-4 flex items-center gap-3 font-semibold">
+                <i data-lucide="filter"></i>
+                All Categories
+            </button>
+
+            <button class="bg-[#ececeb] hover:bg-[#e2e2df] transition rounded-2xl px-6 py-4 flex items-center gap-3 font-semibold">
+                <i data-lucide="wallet"></i>
+                Transaction Type
+            </button>
+
+            <button class="text-[#b39b00] font-bold">
+                Clear Filters
+            </button>
+
+        </div>
+
+
+
+        <!-- TABLE -->
+        <div class="bg-white rounded-[32px] overflow-hidden border border-[#ecece8] shadow-sm">
+
+            <table class="w-full">
+
+                <thead class="bg-[#f7f7f5] text-gray-400 uppercase text-xs tracking-wider border-b border-[#ecece8]">
+
+                    <tr>
+                        <th class="px-8 py-6 text-left">Date</th>
+                        <th class="px-8 py-6 text-left">Type</th>
+                        <th class="px-8 py-6 text-left">Category</th>
+                        <th class="px-8 py-6 text-left">Description</th>
+                        <th class="px-8 py-6 text-right">Amount</th>
+                        <th class="px-8 py-6 text-center">Actions</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <!-- ITEM -->
+                    <tr class="border-b border-[#f1f1ef] hover:bg-[#fafaf8] transition">
+
+                        <td class="px-8 py-8 font-medium">
+                            Oct 24, 2023
+                        </td>
+
+                        <td class="px-8 py-8">
+
+                            <div class="w-12 h-12 rounded-2xl bg-red-50 flex items-center justify-center text-red-500">
+
+                                <i data-lucide="arrow-up-right"></i>
+
+                            </div>
+
+                        </td>
+
+                        <td class="px-8 py-8">
+
+                            <span class="bg-gray-100 px-4 py-2 rounded-xl text-xs font-bold text-gray-600">
+                                Software & Tools
+                            </span>
+
+                        </td>
+
+                        <td class="px-8 py-8">
+
+                            <h3 class="font-bold text-lg">
+                                Adobe Creative Cloud
+                            </h3>
+
+                            <p class="text-gray-500 mt-1">
+                                Monthly subscription renewal
+                            </p>
+
+                        </td>
+
+                        <td class="px-8 py-8 text-right text-red-500 font-black text-2xl">
+                            -$52.99
+                        </td>
+
+                        <td class="px-8 py-8">
+
+                            <div class="flex justify-center gap-4">
+
+                                <button class="text-gray-500 hover:text-black transition">
+                                    <i data-lucide="pencil"></i>
+                                </button>
+
+                                <button class="text-gray-500 hover:text-red-500 transition">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+
+                    <!-- ITEM -->
+                    <tr class="hover:bg-[#fafaf8] transition">
+
+                        <td class="px-8 py-8 font-medium">
+                            Oct 22, 2023
+                        </td>
+
+                        <td class="px-8 py-8">
+
+                            <div class="w-12 h-12 rounded-2xl bg-cyan-50 flex items-center justify-center text-cyan-600">
+
+                                <i data-lucide="arrow-down-left"></i>
+
+                            </div>
+
+                        </td>
+
+                        <td class="px-8 py-8">
+
+                            <span class="bg-cyan-50 px-4 py-2 rounded-xl text-xs font-bold text-cyan-700">
+                                Consulting
+                            </span>
+
+                        </td>
+
+                        <td class="px-8 py-8">
+
+                            <h3 class="font-bold text-lg">
+                                Vanguard Limited
+                            </h3>
+
+                            <p class="text-gray-500 mt-1">
+                                Project phase 2 payment
+                            </p>
+
+                        </td>
+
+                        <td class="px-8 py-8 text-right text-cyan-600 font-black text-2xl">
+                            +$12,450.00
+                        </td>
+
+                        <td class="px-8 py-8">
+
+                            <div class="flex justify-center gap-4">
+
+                                <button class="text-gray-500 hover:text-black transition">
+                                    <i data-lucide="pencil"></i>
+                                </button>
+
+                                <button class="text-gray-500 hover:text-red-500 transition">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+
+
+            <!-- PAGINATION -->
+            <div class="flex items-center justify-between px-8 py-6">
+
+                <p class="text-gray-500">
+                    Showing 1 to 5 of 248 transactions
+                </p>
+
+                <div class="flex items-center gap-3">
+
+                    <button class="w-11 h-11 rounded-2xl border border-[#ecece8] flex items-center justify-center">
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+
+                    <button class="w-11 h-11 rounded-2xl bg-[#f4c400] font-bold">
+                        1
+                    </button>
+
+                    <button class="w-11 h-11 rounded-2xl hover:bg-[#f5f5f3] font-bold">
+                        2
+                    </button>
+
+                    <button class="w-11 h-11 rounded-2xl hover:bg-[#f5f5f3] font-bold">
+                        3
+                    </button>
+
+                    <button class="w-11 h-11 rounded-2xl border border-[#ecece8] flex items-center justify-center">
+                        <i data-lucide="chevron-right"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BOTTOM -->
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 mt-10">
+
+            <!-- CHART -->
+            <div class="bg-white rounded-[32px] p-8 border border-[#ecece8]">
+
+                <div class="flex items-center justify-between mb-8">
+
+                    <div>
+
+                        <h2 class="text-3xl font-black">
+                            Monthly Liquidity Flow
+                        </h2>
+
+                        <p class="text-gray-500 mt-2">
+                            Real-time delta tracking of institutional assets.
+                        </p>
+
+                    </div>
+
+                    <div class="bg-cyan-50 text-cyan-700 px-5 py-3 rounded-2xl text-xs font-black uppercase">
+                        Secure Connection
+                    </div>
+
+                </div>
+
+
+                <!-- Fake chart -->
+                <div class="bg-[#f7f7f5] rounded-[28px] h-[240px] flex items-end gap-5 p-8">
+
+                    <div class="bg-[#d9d2be] h-[40%] w-full rounded-t-2xl"></div>
+
+                    <div class="bg-[#d9d2be] h-[55%] w-full rounded-t-2xl"></div>
+
+                    <div class="bg-[#c9b774] h-[65%] w-full rounded-t-2xl"></div>
+
+                    <div class="bg-[#d9d2be] h-[45%] w-full rounded-t-2xl"></div>
+
+                    <div class="bg-[#b1984f] h-[85%] w-full rounded-t-2xl"></div>
+
+                    <div class="bg-[#c9b774] h-[72%] w-full rounded-t-2xl"></div>
+
+                    <div class="bg-[#d9d2be] h-[55%] w-full rounded-t-2xl"></div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ASSETS -->
+            <div class="bg-[#f4c400] rounded-[32px] p-8 shadow-xl shadow-yellow-200 flex flex-col justify-between">
+
+                <div>
+
+                    <h2 class="text-3xl font-black">
+                        Total Assets
+                    </h2>
+
+                    <p class="mt-2 text-black/70">
+                        Updated 2m ago
+                    </p>
+
+                </div>
+
+                <div class="my-10">
+
+                    <h1 class="text-6xl font-black leading-none tracking-tight">
+                        $2,482,091
+                    </h1>
+
+                    <p class="mt-5 text-lg font-bold text-black/80">
+                        ↗ +4.2% from last month
+                    </p>
+
+                </div>
+
+                <button class="bg-white/30 backdrop-blur-xl rounded-2xl py-5 font-black text-lg hover:bg-white/40 transition">
+
+                    Generate Audit Report
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+
+</body>
+</html>

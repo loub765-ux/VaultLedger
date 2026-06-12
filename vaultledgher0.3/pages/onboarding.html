@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to VaultLedger</title>
+    <link rel="stylesheet" href="/src/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-2xl">
+        <div id="step1" class="card p-12 text-center space-y-8 animate-in fade-in zoom-in duration-500">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-primary rounded-3xl shadow-lg mb-4">
+                <i data-lucide="sparkles" class="w-10 h-10 text-text-main"></i>
+            </div>
+            <div class="space-y-2">
+                <h1 class="text-4xl font-extrabold text-text-main tracking-tight">Welcome to VaultLedger</h1>
+                <p class="text-lg text-text-muted">Let's set up your financial workspace in 3 simple steps.</p>
+            </div>
+            <button onclick="nextStep(2)" class="btn-primary px-8 py-3 text-lg font-bold">Get Started</button>
+        </div>
+
+        <div id="step2" class="card p-12 hidden animate-in slide-in-from-right duration-500">
+            <h2 class="text-2xl font-bold text-text-main mb-6">What's your primary goal?</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                <button onclick="selectGoal('Savings')" class="p-6 border-2 border-border rounded-2xl hover:border-primary hover:bg-primary/5 transition-all text-left group">
+                    <i data-lucide="piggy-bank" class="w-8 h-8 text-primary mb-4"></i>
+                    <h3 class="font-bold text-text-main">Build Savings</h3>
+                    <p class="text-sm text-text-muted">Save for a rainy day or a big purchase.</p>
+                </button>
+                <button onclick="selectGoal('Budgeting')" class="p-6 border-2 border-border rounded-2xl hover:border-primary hover:bg-primary/5 transition-all text-left group">
+                    <i data-lucide="pie-chart" class="w-8 h-8 text-primary mb-4"></i>
+                    <h3 class="font-bold text-text-main">Smart Budgeting</h3>
+                    <p class="text-sm text-text-muted">Track every penny and reduce expenses.</p>
+                </button>
+                <button onclick="selectGoal('Investing')" class="p-6 border-2 border-border rounded-2xl hover:border-primary hover:bg-primary/5 transition-all text-left group">
+                    <i data-lucide="trending-up" class="w-8 h-8 text-primary mb-4"></i>
+                    <h3 class="font-bold text-text-main">Start Investing</h3>
+                    <p class="text-sm text-text-muted">Grow your wealth over the long term.</p>
+                </button>
+                <button onclick="selectGoal('Debt')" class="p-6 border-2 border-border rounded-2xl hover:border-primary hover:bg-primary/5 transition-all text-left group">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-primary mb-4"></i>
+                    <h3 class="font-bold text-text-main">Debt Freedom</h3>
+                    <p class="text-sm text-text-muted">Pay off loans and take back control.</p>
+                </button>
+            </div>
+            <div class="flex justify-between items-center">
+                <button onclick="nextStep(1)" class="text-text-muted hover:text-text-main font-medium">Back</button>
+                <div class="flex gap-1">
+                    <div class="w-2 h-2 rounded-full bg-border"></div>
+                    <div class="w-6 h-2 rounded-full bg-primary"></div>
+                    <div class="w-2 h-2 rounded-full bg-border"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="step3" class="card p-12 hidden animate-in slide-in-from-right duration-500">
+            <h2 class="text-2xl font-bold text-text-main mb-2">Almost there!</h2>
+            <p class="text-text-muted mb-8">Set your monthly savings target to get started.</p>
+            
+            <div class="space-y-6 mb-10">
+                <div>
+                    <label class="block text-sm font-bold text-text-main mb-2 uppercase tracking-wider">Monthly Target</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted font-bold">$</span>
+                        <input type="number" id="targetAmount" class="input-field pl-8 text-xl font-bold" value="500">
+                    </div>
+                </div>
+                <div class="p-4 bg-primary/10 rounded-xl border border-primary/20 flex gap-4">
+                    <i data-lucide="info" class="w-6 h-6 text-primary shrink-0"></i>
+                    <p class="text-sm text-text-main">We'll help you track this target across your income and expenses.</p>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button onclick="nextStep(2)" class="text-text-muted hover:text-text-main font-medium">Back</button>
+                <button onclick="finishOnboarding()" class="btn-primary px-8 py-3 font-bold">Finish Setup</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createGoal } from '/js/api.js';
+        
+        window.nextStep = (step) => {
+            document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+            document.getElementById(`step${step}`).classList.remove('hidden');
+            lucide.createIcons();
+        };
+
+        let selectedGoalType = '';
+        window.selectGoal = (type) => {
+            selectedGoalType = type;
+            nextStep(3);
+        };
+
+        window.finishOnboarding = async () => {
+            const target = document.getElementById('targetAmount').value;
+            
+            // Create initial goal based on selection
+            await createGoal({
+                title: `${selectedGoalType} Target`,
+                target: parseFloat(target),
+                current: 0,
+                color: '#FACC15'
+            });
+
+            window.location.href = '/pages/dashboard.html';
+        };
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>
