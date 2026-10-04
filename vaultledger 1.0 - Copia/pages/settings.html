@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VaultLedger — Configurações</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Indie+Flower&family=Federo&family=IBM+Plex+Serif:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        background: "#f6f6f4",
+        card: "#ffffff",
+        border: "#ecece8",
+        primary: "#f4c400",
+        "primary-hover": "#e1b900",
+        "text-main": "#111111",
+        "text-muted": "#8a8a8a",
+        'dark-background': '#1a1a1a',
+        'dark-card': '#242424',
+        'dark-border': '#3a3a3a',
+        'dark-text-main': '#f5f5f5',
+      },
+      fontFamily: { sans: ["Roboto", "Plus Jakarta Sans", "sans-serif"] }
+    }
+  }
+}
+</script>
+<style>
+body { font-family: 'Roboto', 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+.sidebar { width: 290px !important; min-width: 290px !important; }
+.sidebar-item { transition: .3s; }
+.sidebar-item:hover { transform: translateX(4px); background: white; }
+.dark .sidebar-item:hover { background: #1a1a1a; }
+.sidebar-active {
+  --tw-shadow-color: rgba(225, 185, 0, 0.4);
+  box-shadow: 0 10px 25px -5px var(--tw-shadow-color);
+}
+aside { scrollbar-width: thin; scrollbar-color: #d1d1d1 #f2f2f0; }
+.option-card {
+  border: 2px solid #ecece8; border-radius: 16px; padding: 14px 16px;
+  cursor: pointer; transition: all .2s; background: #fafafa;
+}
+.dark .option-card { border-color: #3a3a3a; background: #1a1a1a; }
+.option-card:hover { border-color: #f4c400; }
+.option-card.active {
+  border-color: #f4c400; background: #fef9e7;
+  box-shadow: 0 0 0 3px rgba(244,196,0,.2);
+}
+.dark .option-card.active { background: rgba(244,196,0,.12); }
+.color-swatch {
+  width: 36px; height: 36px; border-radius: 10px; border: 2px solid rgba(0,0,0,.1);
+  flex-shrink: 0;
+}
+.vl-notif-wrap { position: relative; }
+.vl-notif-btn {
+  width: 48px; height: 48px; border-radius: 16px;
+  border: 1px solid #ecece8; background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .2s; position: relative;
+}
+.dark .vl-notif-btn { background: #242424; border-color: #3a3a3a; color: #f5f5f5; }
+.vl-notif-btn:hover { background: #fafafa; transform: scale(1.05); }
+.vl-notif-badge {
+  position: absolute; top: -4px; right: -4px;
+  min-width: 20px; height: 20px; padding: 0 5px;
+  background: #ef4444; color: #fff; font-size: 11px; font-weight: 800;
+  border-radius: 999px; display: none; align-items: center; justify-content: center;
+  border: 2px solid #fff;
+}
+.vl-notif-badge.show { display: flex; }
+.vl-notif-panel {
+  position: absolute; top: calc(100% + 10px); right: 0;
+  width: 360px; max-width: calc(100vw - 32px);
+  background: #fff; border: 1px solid #ecece8; border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.12); z-index: 100; display: none; overflow: hidden;
+}
+.dark .vl-notif-panel { background: #242424; border-color: #3a3a3a; }
+.vl-notif-panel.open { display: block; }
+.vl-notif-header {
+  padding: 16px 18px; border-bottom: 1px solid #ecece8;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.vl-notif-list { max-height: 320px; overflow-y: auto; }
+.vl-notif-item { padding: 14px 18px; border-bottom: 1px solid #f3f4f6; display: flex; gap: 12px; }
+.vl-notif-empty { padding: 28px 18px; text-align: center; color: #8a8a8a; font-size: 14px; }
+.vl-notif-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+.vl-notif-dot.today { background: #ef4444; }
+.vl-notif-dot.tomorrow { background: #f4c400; }
+.vl-notif-sys-btn {
+  font-size: 12px; font-weight: 700; color: #b45309;
+  background: #fef9e7; border: none; border-radius: 10px; padding: 6px 10px; cursor: pointer;
+}
+
+/* === Tema Azul (tonalidades de azul escuro) === */
+html.theme-blue,
+html.theme-blue body {
+  background: #00152C !important;
+  color: #E8F1FF !important;
+}
+html.theme-blue aside#sidebar,
+html.theme-blue .sidebar {
+  background: #001a38 !important;
+  border-color: #0a2a4a !important;
+  color: #E8F1FF !important;
+}
+html.theme-blue .sidebar-item {
+  color: #A8C4E0 !important;
+}
+html.theme-blue .sidebar-item:hover {
+  background: #0a2748 !important;
+  color: #fff !important;
+}
+html.theme-blue .sidebar-active,
+html.theme-blue a.sidebar-active {
+  background: #1a3a5c !important;
+  color: #F4C400 !important;
+}
+html.theme-blue .bg-white,
+html.theme-blue .bg-card,
+html.theme-blue [class*="bg-white"],
+html.theme-blue .bg-\[\#fafafa\],
+html.theme-blue .bg-\[\#f7f7f5\],
+html.theme-blue .bg-\[\#f2f2f0\] {
+  background-color: #0a2748 !important;
+}
+html.theme-blue .dark\:bg-dark-card {
+  background-color: #0a2748 !important;
+}
+html.theme-blue .border,
+html.theme-blue .border-border,
+html.theme-blue [class*="border-\[\#e"],
+html.theme-blue .border-\[\#e8e8e5\] {
+  border-color: #1a3a5c !important;
+}
+html.theme-blue .dark\:border-dark-border {
+  border-color: #1a3a5c !important;
+}
+html.theme-blue .text-text-main,
+html.theme-blue .text-text-main,
+html.theme-blue h1, html.theme-blue h2, html.theme-blue h3 {
+  color: #E8F1FF !important;
+}
+html.theme-blue .text-text-muted,
+html.theme-blue .text-gray-400,
+html.theme-blue .text-gray-500,
+html.theme-blue .text-gray-600 {
+  color: #8BA4C0 !important;
+}
+html.theme-blue .bg-background,
+html.theme-blue .bg-\[\#f6f6f4\] {
+  background-color: #00152C !important;
+}
+html.theme-blue .vl-notif-btn {
+  background: #0a2748 !important;
+  border-color: #1a3a5c !important;
+  color: #E8F1FF !important;
+}
+html.theme-blue .vl-notif-panel {
+  background: #0a2748 !important;
+  border-color: #1a3a5c !important;
+  color: #E8F1FF !important;
+}
+html.theme-blue .vl-notif-header {
+  border-color: #1a3a5c !important;
+}
+html.theme-blue .vl-notif-item {
+  border-color: #123050 !important;
+}
+html.theme-blue input,
+html.theme-blue select,
+html.theme-blue textarea {
+  background: #001a38 !important;
+  border-color: #1a3a5c !important;
+  color: #E8F1FF !important;
+}
+html.theme-blue .option-card {
+  background: #001a38 !important;
+  border-color: #1a3a5c !important;
+  color: #E8F1FF !important;
+}
+html.theme-blue .option-card.active {
+  background: #123050 !important;
+  border-color: #f4c400 !important;
+}
+html.theme-blue .rounded-\[28px\],
+html.theme-blue .rounded-\[32px\],
+html.theme-blue .rounded-3xl {
+  /* cards get dark blue via bg overrides */
+}
+html.theme-blue table thead th {
+  color: #8BA4C0 !important;
+}
+html.theme-blue .divide-gray-100 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #1a3a5c !important;
+}
+html.theme-blue .progress-track {
+  background: #123050 !important;
+}
+html.theme-blue .modal,
+html.theme-blue #transactionModal .modal,
+html.theme-blue .modal-overlay .modal {
+  background: #0a2748 !important;
+  color: #E8F1FF !important;
+}
+html.theme-blue .bg-green-50 { background-color: rgba(34,197,94,.15) !important; }
+html.theme-blue .bg-red-50 { background-color: rgba(239,68,68,.15) !important; }
+html.theme-blue .bg-blue-50 { background-color: rgba(59,130,246,.15) !important; }
+html.theme-blue .bg-yellow-50 { background-color: rgba(244,196,0,.12) !important; }
+
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Indie+Flower&family=Federo&family=IBM+Plex+Serif:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+(function(){
+  try {
+    var s = JSON.parse(localStorage.getItem('vaultledger_settings') || '{}');
+    var FONT_MAP = {
+      roboto: "'Roboto', 'Plus Jakarta Sans', sans-serif",
+      indie: "'Indie Flower', cursive",
+      federo: "'Federo', sans-serif",
+      ibm: "'IBM Plex Serif', serif"
+    };
+    var bg = s.background || 'white';
+    var font = s.font || 'roboto';
+    document.documentElement.style.setProperty('--vl-font', FONT_MAP[font] || FONT_MAP.roboto);
+    document.documentElement.classList.remove('dark', 'theme-blue');
+    function applyBody() {
+      if (!document.body) return;
+      document.body.style.fontFamily = FONT_MAP[font] || FONT_MAP.roboto;
+      if (bg === 'black') {
+        document.documentElement.classList.add('dark');
+        document.body.style.background = '#0a0a0a';
+        document.body.style.color = '#f5f5f5';
+      } else if (bg === 'blue') {
+        document.documentElement.classList.add('theme-blue');
+        document.body.style.background = '#00152C';
+        document.body.style.color = '#E8F1FF';
+      } else {
+        document.body.style.background = '';
+        document.body.style.color = '';
+      }
+    }
+    if (document.body) applyBody();
+    else document.addEventListener('DOMContentLoaded', applyBody);
+    window.VL_CURRENCY = s.currency || 'BRL';
+    window.VL_formatMoney = function(v, full) {
+      var cur = window.VL_CURRENCY || 'BRL';
+      var locale = cur === 'BRL' ? 'pt-BR' : cur === 'EUR' ? 'de-DE' : cur === 'GBP' ? 'en-GB' : cur === 'JPY' ? 'ja-JP' : 'en-US';
+      return Number(v||0).toLocaleString(locale, {
+        style: 'currency', currency: cur,
+        minimumFractionDigits: full ? 2 : 0,
+        maximumFractionDigits: full ? 2 : 0
+      });
+    };
+  } catch(e) {}
+})();
+</script>
+
+</head>
+<body class="text-text-main bg-background dark:bg-dark-background dark:text-dark-text-main overflow-x-hidden">
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar w-[290px] bg-[#f2f2f0] dark:bg-dark-card border-r border-[#e8e8e5] dark:border-dark-border fixed h-screen px-6 py-8 flex flex-col justify-between shadow-2xl z-20 overflow-y-auto">
+    <div>
+      <img src="vaultledger_logo.png" alt="VaultLedger" class="h-24 w-auto object-contain mb-6">
+      <nav class="mt-10 flex flex-col gap-3">
+        <a href="dashboard.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-dark-background transition">
+          <i data-lucide="layout-dashboard"></i><span>Dashboard</span>
+        </a>
+        <a href="transactions.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-dark-background transition">
+          <i data-lucide="receipt"></i><span>Transações</span>
+        </a>
+        <a href="goals.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-dark-background transition">
+          <i data-lucide="target"></i><span>Metas</span>
+        </a>
+        <a href="agenda.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-dark-background transition">
+          <i data-lucide="calendar-days"></i><span>Agenda</span>
+        </a>
+        <a href="categories.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-dark-background transition">
+          <i data-lucide="layers-3"></i><span>Categorias</span>
+        </a>
+        <a href="settings.html" class="sidebar-item flex items-center justify-between px-4 py-4 rounded-2xl bg-[#efe5a7] text-black font-bold sidebar-active">
+          <div class="flex items-center gap-3"><i data-lucide="settings"></i><span>Opções</span></div>
+          <div class="w-1 h-8 bg-[#e1b900] rounded-full"></div>
+        </a>
+        <a href="calculadora.html" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-dark-background transition">
+          <i data-lucide="calculator"></i><span>Calculadora</span>
+        </a>
+      </nav>
+    </div>
+    <div class="flex flex-col gap-2 mt-6">
+      <button id="logoutBtn" class="sidebar-item flex items-center gap-3 px-4 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition">
+        <div class="flex items-center gap-3"><i data-lucide="log-out"></i><span>Sair</span></div>
+      </button>
+    </div>
+  </aside>
+
+  <main id="main-content" class="ml-[290px] w-full p-8 md:p-10">
+    <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-10">
+      <div>
+        <p class="text-sm text-gray-400 dark:text-gray-500 font-medium mb-2">Pages / Opções</p>
+        <h1 class="text-4xl md:text-5xl font-black tracking-tight">Configurações</h1>
+        <p class="text-text-muted mt-3 text-base">Personalize a aparência e preferências do VaultLedger.</p>
+      </div>
+      <div class="vl-notif-wrap">
+        <button type="button" id="vlNotifBtn" class="vl-notif-btn" title="Notificações">
+          <i data-lucide="bell" class="w-5 h-5"></i>
+          <span id="vlNotifBadge" class="vl-notif-badge">0</span>
+        </button>
+        <div id="vlNotifPanel" class="vl-notif-panel">
+          <div class="vl-notif-header">
+            <div>
+              <p class="font-black text-sm">Notificações</p>
+              <p class="text-xs text-text-muted">Agendamentos de hoje e amanhã</p>
+            </div>
+            <button type="button" id="vlNotifSysBtn" class="vl-notif-sys-btn">Notificar PC</button>
+          </div>
+          <div id="vlNotifList" class="vl-notif-list"><div class="vl-notif-empty">Carregando...</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-3xl space-y-8">
+
+      <!-- Fundo -->
+      <section class="bg-white dark:bg-dark-card border border-border dark:border-dark-border rounded-[28px] p-7 shadow-sm">
+        <h2 class="text-xl font-black mb-1 flex items-center gap-2"><i data-lucide="palette" class="w-5 h-5"></i> Cor de fundo</h2>
+        <p class="text-sm text-text-muted mb-5">Escolha o fundo do site em todas as páginas.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="bgOptions">
+          <button type="button" class="option-card flex items-center gap-3" data-bg="white" onclick="setBackground('white')">
+            <span class="color-swatch" style="background:#f6f6f4"></span>
+            <div class="text-left"><p class="font-bold text-sm">Branco</p><p class="text-xs text-text-muted">Padrão claro</p></div>
+          </button>
+          <button type="button" class="option-card flex items-center gap-3" data-bg="black" onclick="setBackground('black')">
+            <span class="color-swatch" style="background:#0a0a0a"></span>
+            <div class="text-left"><p class="font-bold text-sm">Preto</p><p class="text-xs text-text-muted">Modo escuro</p></div>
+          </button>
+          <button type="button" class="option-card flex items-center gap-3" data-bg="blue" onclick="setBackground('blue')">
+            <span class="color-swatch" style="background:#00152C"></span>
+            <div class="text-left"><p class="font-bold text-sm">Azul</p><p class="text-xs text-text-muted">#00152C</p></div>
+          </button>
+        </div>
+      </section>
+
+      <!-- Fonte -->
+      <section class="bg-white dark:bg-dark-card border border-border dark:border-dark-border rounded-[28px] p-7 shadow-sm">
+        <h2 class="text-xl font-black mb-1 flex items-center gap-2"><i data-lucide="type" class="w-5 h-5"></i> Fonte</h2>
+        <p class="text-sm text-text-muted mb-5">Altere a tipografia do site.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="fontOptions">
+          <button type="button" class="option-card" data-font="roboto" onclick="setFont('roboto')" style="font-family:'Roboto',sans-serif">
+            <p class="font-bold">Roboto</p>
+            <p class="text-xs text-text-muted mt-1">Padrão — limpa e moderna</p>
+          </button>
+          <button type="button" class="option-card" data-font="indie" onclick="setFont('indie')" style="font-family:'Indie Flower',cursive">
+            <p class="font-bold text-lg">Indie Flower</p>
+            <p class="text-xs text-text-muted mt-1">Manuscrita e descontraída</p>
+          </button>
+          <button type="button" class="option-card" data-font="federo" onclick="setFont('federo')" style="font-family:'Federo',sans-serif">
+            <p class="font-bold text-lg">Federo</p>
+            <p class="text-xs text-text-muted mt-1">Elegante e geométrica</p>
+          </button>
+          <button type="button" class="option-card" data-font="ibm" onclick="setFont('ibm')" style="font-family:'IBM Plex Serif',serif">
+            <p class="font-bold">IBM Plex Serif</p>
+            <p class="text-xs text-text-muted mt-1">Clássica com serifa</p>
+          </button>
+        </div>
+      </section>
+
+      <!-- Moeda -->
+      <section class="bg-white dark:bg-dark-card border border-border dark:border-dark-border rounded-[28px] p-7 shadow-sm">
+        <h2 class="text-xl font-black mb-1 flex items-center gap-2"><i data-lucide="coins" class="w-5 h-5"></i> Moeda</h2>
+        <p class="text-sm text-text-muted mb-5">Moeda usada para formatar valores no site.</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="currencyOptions">
+          <button type="button" class="option-card text-left" data-currency="BRL" onclick="setCurrency('BRL')">
+            <p class="font-bold">R$ Real</p>
+            <p class="text-xs text-text-muted">BRL</p>
+          </button>
+          <button type="button" class="option-card text-left" data-currency="USD" onclick="setCurrency('USD')">
+            <p class="font-bold">$ Dólar</p>
+            <p class="text-xs text-text-muted">USD</p>
+          </button>
+          <button type="button" class="option-card text-left" data-currency="EUR" onclick="setCurrency('EUR')">
+            <p class="font-bold">€ Euro</p>
+            <p class="text-xs text-text-muted">EUR</p>
+          </button>
+          <button type="button" class="option-card text-left" data-currency="GBP" onclick="setCurrency('GBP')">
+            <p class="font-bold">£ Libra</p>
+            <p class="text-xs text-text-muted">GBP</p>
+          </button>
+          <button type="button" class="option-card text-left" data-currency="JPY" onclick="setCurrency('JPY')">
+            <p class="font-bold">¥ Iene</p>
+            <p class="text-xs text-text-muted">JPY</p>
+          </button>
+          <button type="button" class="option-card text-left" data-currency="ARS" onclick="setCurrency('ARS')">
+            <p class="font-bold">$ Peso ARS</p>
+            <p class="text-xs text-text-muted">ARS</p>
+          </button>
+        </div>
+      </section>
+
+      <!-- Conta -->
+      <section class="bg-white dark:bg-dark-card border border-red-200 dark:border-red-900/40 rounded-[28px] p-7 shadow-sm">
+        <h2 class="text-xl font-black mb-1 flex items-center gap-2 text-red-600"><i data-lucide="trash-2" class="w-5 h-5"></i> Zona de perigo</h2>
+        <p class="text-sm text-text-muted mb-5">Ações irreversíveis relacionadas à sua conta e dados locais.</p>
+        <button type="button" onclick="deleteAccount()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-bold transition flex items-center justify-center gap-2">
+          <i data-lucide="user-x" class="w-5 h-5"></i>
+          Excluir conta e todos os dados
+        </button>
+        <p class="text-xs text-text-muted mt-3">Apaga transações, metas, agenda e preferências salvas neste navegador.</p>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+
+  const SETTINGS_KEY = 'vaultledger_settings';
+
+  const FONT_MAP = {
+    roboto: "'Roboto', 'Plus Jakarta Sans', sans-serif",
+    indie: "'Indie Flower', cursive",
+    federo: "'Federo', sans-serif",
+    ibm: "'IBM Plex Serif', serif"
+  };
+
+  function loadSettings() {
+    try {
+      return JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveSettings(s) {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
+  }
+
+  function applySettings(s) {
+    s = s || loadSettings();
+    const bg = s.background || 'white';
+    const font = s.font || 'roboto';
+
+    document.documentElement.classList.remove('dark', 'theme-blue');
+    document.body.style.background = '';
+    document.body.style.color = '';
+
+    if (bg === 'black') {
+      document.documentElement.classList.add('dark');
+      document.body.style.background = '#0a0a0a';
+      document.body.style.color = '#f5f5f5';
+    } else if (bg === 'blue') {
+      document.documentElement.classList.add('theme-blue');
+      document.body.style.background = '#00152C';
+      document.body.style.color = '#E8F1FF';
+    } else {
+      document.body.style.background = '#f6f6f4';
+      document.body.style.color = '#111111';
+    }
+
+    document.body.style.fontFamily = FONT_MAP[font] || FONT_MAP.roboto;
+    document.documentElement.style.setProperty('--vl-font', FONT_MAP[font] || FONT_MAP.roboto);
+
+    document.querySelectorAll('#bgOptions .option-card').forEach(el => {
+      el.classList.toggle('active', el.dataset.bg === bg);
+    });
+    document.querySelectorAll('#fontOptions .option-card').forEach(el => {
+      el.classList.toggle('active', el.dataset.font === font);
+    });
+    const cur = s.currency || 'BRL';
+    document.querySelectorAll('#currencyOptions .option-card').forEach(el => {
+      el.classList.toggle('active', el.dataset.currency === cur);
+    });
+  }
+
+  function setBackground(bg) {
+    const s = loadSettings();
+    s.background = bg;
+    saveSettings(s);
+    applySettings(s);
+  }
+
+  function setFont(font) {
+    const s = loadSettings();
+    s.font = font;
+    saveSettings(s);
+    applySettings(s);
+  }
+
+  function setCurrency(currency) {
+    const s = loadSettings();
+    s.currency = currency;
+    saveSettings(s);
+    applySettings(s);
+  }
+
+  function deleteAccount() {
+    const ok = confirm('Tem certeza que deseja excluir a conta?\n\nIsso apagará TODAS as transações, metas, agenda e configurações deste navegador. Esta ação não pode ser desfeita.');
+    if (!ok) return;
+    const ok2 = confirm('Confirma a exclusão definitiva de todos os dados?');
+    if (!ok2) return;
+
+    const keys = [
+      'transactions',
+      'vaultledger_goals_v1',
+      'aspiracoes_metas_v1',
+      'agendamentos',
+      'vaultledger_settings',
+      'theme'
+    ];
+    keys.forEach(k => localStorage.removeItem(k));
+    // clear daily notif maps
+    Object.keys(localStorage).forEach(k => {
+      if (k.startsWith('vl_auto_notif_') || k.startsWith('vl_')) localStorage.removeItem(k);
+    });
+    alert('Conta e dados locais excluídos.');
+    window.location.href = 'dashboard.html';
+  }
+
+  document.getElementById('logoutBtn')?.addEventListener('click', () => {
+    if (confirm('Deseja sair do VaultLedger?')) window.location.href = 'dashboard.html';
+  });
+
+  applySettings();
+</script>
+
+<!-- Notificações (mesmo sistema das outras páginas) -->
+<script>
+(function() {
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function todayStr() {
+    const d = new Date();
+    return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+  }
+  function tomorrowStr() {
+    const d = new Date(); d.setDate(d.getDate()+1);
+    return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+  }
+  function formatBR(iso) {
+    if (!iso) return '';
+    const p = iso.split('-');
+    return p[2] + '/' + p[1] + '/' + p[0];
+  }
+  function formatMoney(v) {
+    const s = JSON.parse(localStorage.getItem('vaultledger_settings') || '{}');
+    const cur = s.currency || 'BRL';
+    const locale = cur === 'BRL' ? 'pt-BR' : cur === 'EUR' ? 'de-DE' : cur === 'GBP' ? 'en-GB' : 'en-US';
+    return Number(v||0).toLocaleString(locale, { style:'currency', currency: cur });
+  }
+  function protocolBlocked() { return location.protocol === 'file:'; }
+  function getDueAgendamentos() {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('agendamentos')) || []; } catch(e) {}
+    const t = todayStr(), tm = tomorrowStr();
+    return list.filter(a => a && (a.data === t || a.data === tm)).map(a => ({
+      ...a, when: a.data === t ? 'today' : 'tomorrow', label: a.data === t ? 'Hoje' : 'Amanhã'
+    })).sort((a,b) => String(a.data).localeCompare(String(b.data)));
+  }
+  function renderNotifUI() {
+    const items = getDueAgendamentos();
+    const badge = document.getElementById('vlNotifBadge');
+    const list = document.getElementById('vlNotifList');
+    if (!badge || !list) return;
+    if (!items.length) {
+      badge.classList.remove('show'); badge.textContent = '0';
+      list.innerHTML = '<div class="vl-notif-empty">Nenhum agendamento para hoje ou amanhã.</div>';
+    } else {
+      badge.classList.add('show'); badge.textContent = String(items.length);
+      list.innerHTML = items.map(a =>
+        '<div class="vl-notif-item"><div class="vl-notif-dot '+a.when+'"></div><div class="min-w-0 flex-1"><p class="font-bold text-sm truncate">'+(a.nome||'Agendamento').replace(/</g,'&lt;')+'</p><p class="text-xs text-text-muted">'+(a.label)+' · '+formatBR(a.data)+' · '+formatMoney(a.valor)+'</p></div><span class="text-[10px] font-black uppercase '+(a.when==='today'?'text-red-500':'text-yellow-600')+'">'+a.label+'</span></div>'
+      ).join('');
+    }
+  }
+  function fireNotification(title, body, tag) {
+    try {
+      const n = new Notification(title, { body, tag, icon: 'vaultledger_logo.png' });
+      n.onclick = () => { window.focus(); n.close(); location.href = 'agenda.html'; };
+      return true;
+    } catch(e) { return false; }
+  }
+  function sendDueNotifications() {
+    if (protocolBlocked() || !('Notification' in window) || Notification.permission !== 'granted') return 0;
+    const items = getDueAgendamentos();
+    const dayKey = 'vl_auto_notif_' + todayStr();
+    let sentMap = {};
+    try { sentMap = JSON.parse(localStorage.getItem(dayKey) || '{}'); } catch(e) {}
+    let ok = 0;
+    items.forEach(a => {
+      const id = String(a.id);
+      if (sentMap[id]) return;
+      if (fireNotification((a.when==='today'?'Agendamento HOJE: ':'Agendamento AMANHÃ: ')+(a.nome||'Pagamento'), formatBR(a.data)+' · '+formatMoney(a.valor), 'vl-agenda-'+id)) {
+        sentMap[id] = 1; ok++;
+      }
+    });
+    try { localStorage.setItem(dayKey, JSON.stringify(sentMap)); } catch(e) {}
+    return ok;
+  }
+  async function ensurePermissionAndNotify() {
+    if (protocolBlocked() || !('Notification' in window)) { renderNotifUI(); return; }
+    let p = Notification.permission;
+    if (p === 'default') { try { p = await Notification.requestPermission(); } catch(e) {} }
+    if (p === 'granted') sendDueNotifications();
+    renderNotifUI();
+  }
+  function initBell() {
+    const btn = document.getElementById('vlNotifBtn');
+    const panel = document.getElementById('vlNotifPanel');
+    if (!btn || !panel) return;
+    btn.addEventListener('click', e => { e.stopPropagation(); panel.classList.toggle('open'); renderNotifUI(); });
+    document.addEventListener('click', e => { if (!panel.contains(e.target) && !btn.contains(e.target)) panel.classList.remove('open'); });
+    document.getElementById('vlNotifSysBtn')?.addEventListener('click', async e => {
+      e.stopPropagation();
+      if (protocolBlocked()) return alert('Use localhost para notificações do sistema.');
+      let p = Notification.permission;
+      if (p === 'default') p = await Notification.requestPermission();
+      if (p !== 'granted') return alert('Permissão negada.');
+      try { localStorage.removeItem('vl_auto_notif_' + todayStr()); } catch(e) {}
+      sendDueNotifications();
+    });
+    renderNotifUI();
+    setTimeout(ensurePermissionAndNotify, 600);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initBell);
+  else initBell();
+})();
+</script>
+</body>
+</html>
